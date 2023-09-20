@@ -1,36 +1,59 @@
 ﻿using CrayonsChallenge;
 
-List<string> pozycjeMenuKredki = new List<string>();
-int aktywnaPozycjaMenuKredki = 0;
-int aktywnaPozycja = 0;
-int aktywneDziecko = 0;
+List<string> CrayonsColorsList = new List<string>();
 List<string> crayons = new Crayons().color();
-string[] pozycjeMenu = { "Dodaj dziecko", "Wybierz dziecko", "Daj dziecku kredkę", "Usuń błędnie dodaną kredkę", "Pokaż statystyki", "Pokaż statystyki wszystkich", "Zakończ" };
+List<string> PositionsMenuList = new List<string>();
+PositionsMenuList.Add("Dodaj dziecko");
+PositionsMenuList.Add("Wybierz dziecko");
+PositionsMenuList.Add("Daj dziecku kredkę");
+PositionsMenuList.Add("Usuń błędnie dodaną kredkę");
+PositionsMenuList.Add("Pokaż statystyki");
+PositionsMenuList.Add("Pokaż statystyki wszystkich");
+PositionsMenuList.Add("Zakończ");
 Console.Title = "Crayons Challenge Console App";
 Console.CursorVisible = false;
 List<Child> ChildList = new List<Child>();
+List<string> ChildListName = new List<string>();
 bool prawda = true;
+ShowMenu MainMenu = new ShowMenu("Wybierz Opcję:");
+ShowMenu ChildMenu = new ShowMenu("Wybierz Dziecko:");
+ShowMenu CrayonsMenu = new ShowMenu("Wybierz Kolor Kredki:");
 
 while (prawda)
 {
-    PokazMenu();
+    MainMenu.ShowMenuPositions(PositionsMenuList);
     WybierzOpcje();
     UruchomOpcje();
 }
+void ShowActiveChild()
+{
+    if (ChildList.Count != 0)
+    {
+        Console.WriteLine();
+        Console.WriteLine($"Wybrane Dziecko: {ChildList[ChildMenu.ActivePosition].Name}");
+        Console.WriteLine();
+    }
+}
+
+
 void WybierzOpcje()
 {
     do
     {
+        MainMenu.ShowMenuPositions(PositionsMenuList); ;
+        ShowActiveChild();
         ConsoleKeyInfo klawisz = Console.ReadKey();
         if (klawisz.Key == ConsoleKey.UpArrow)
         {
-            aktywnaPozycja = (aktywnaPozycja > 0) ? aktywnaPozycja - 1 : pozycjeMenu.Length - 1;
-            PokazMenu();
+            MainMenu.ActivePosition = (MainMenu.ActivePosition > 0) ? MainMenu.ActivePosition - 1 : PositionsMenuList.Count - 1;
+            MainMenu.ShowMenuPositions(PositionsMenuList); ;
+            ShowActiveChild();
         }
         else if (klawisz.Key == ConsoleKey.DownArrow)
         {
-            aktywnaPozycja = (aktywnaPozycja + 1) % pozycjeMenu.Length;
-            PokazMenu();
+            MainMenu.ActivePosition = (MainMenu.ActivePosition + 1) % PositionsMenuList.Count;
+            MainMenu.ShowMenuPositions(PositionsMenuList); ;
+            ShowActiveChild();
         }
         else if (klawisz.Key == ConsoleKey.Enter)
         {
@@ -44,90 +67,49 @@ void WybierzOpcje()
         else
         {
             Console.Clear();
-            PokazMenu();
+            MainMenu.ShowMenuPositions(PositionsMenuList);
+            ShowActiveChild();
         }
     } while (true);
 }
-void PokazMenu()
+void OpcjaWyjscia()
 {
-    Console.BackgroundColor = ConsoleColor.Black;
-    Console.Clear();
-    Console.ForegroundColor = ConsoleColor.White;
-    if (ChildList.Count > 0)
-    {
-        Console.WriteLine($"Wybrane Dziecko: {ChildList[aktywneDziecko].Name}");
-        Console.WriteLine();
-    }
-    Console.WriteLine("Wybierz Opcję:");
-    for (int i = 0; i < pozycjeMenu.Length; i++)
-    {
-        if (i == aktywnaPozycja)
-        {
-            Console.BackgroundColor = ConsoleColor.DarkGray;
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("{0,-35}", pozycjeMenu[i]);
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-        else
-        {
-            Console.WriteLine(pozycjeMenu[i]);
-        }
-    }
-}
-void PokazMenuDzieci()
-{
-    Console.BackgroundColor = ConsoleColor.Black;
-    Console.Clear();
-    Console.ForegroundColor = ConsoleColor.White;
-    Console.WriteLine("Wybierz Dziecko:");
-    for (int i = 0; i < ChildList.Count; i++)
-    {
-        if (i == aktywneDziecko)
-        {
-            Console.BackgroundColor = ConsoleColor.DarkGray;
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("{0,-35}", ChildList[i].Name);
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-        else
-        {
-            Console.WriteLine(ChildList[i].Name);
-        }
-    }
+    Console.WriteLine();
+    Console.WriteLine("Kliknij klawisz Enter aby potwierdzić wybór, Esc aby wyjść z opcji");
 }
 void UruchomOpcje()
 {
-    switch (aktywnaPozycja)
+    switch (MainMenu.ActivePosition)
     {
         case 0: Console.Clear(); DodajDziecko(); break;
         case 1: Console.Clear(); WybierzDziecko(); break;
-        case 2: Console.Clear(); DodajUsunKredke(aktywneDziecko, true); break;
-        case 3: Console.Clear(); DodajUsunKredke(aktywneDziecko, false); break;
-        case 4: Console.Clear(); PokazStatystyki(aktywneDziecko); break;
+        case 2: Console.Clear(); DodajUsunKredke(ChildMenu.ActivePosition, true); break;
+        case 3: Console.Clear(); DodajUsunKredke(ChildMenu.ActivePosition, false); break;
+        case 4: Console.Clear(); PokazStatystyki(ChildMenu.ActivePosition); break;
         case 5: Console.Clear(); PokazStatystykiWszystkich(); break;
         case 6: Environment.Exit(0); break;
     }
 }
-
 void WybierzDziecko()
 {
-    if (ChildList.Count > 1)
+    if (ChildListName.Count != 0)
     {
-        PokazMenuDzieci();
+        ChildMenu.ShowMenuPositions(ChildListName);
+        OpcjaWyjscia();
         do
         {
             ConsoleKeyInfo klawisz = Console.ReadKey();
             if (klawisz.Key == ConsoleKey.UpArrow)
             {
-                aktywneDziecko = (aktywneDziecko > 0) ? aktywneDziecko - 1 : ChildList.Count - 1;
-                PokazMenuDzieci();
+                ChildMenu.ActivePosition = (ChildMenu.ActivePosition > 0) ? ChildMenu.ActivePosition - 1 : ChildListName.Count - 1;
+                ChildMenu.ShowMenuPositions(ChildListName);
+                OpcjaWyjscia();
             }
             else if (klawisz.Key == ConsoleKey.DownArrow)
             {
-                aktywneDziecko = (aktywneDziecko + 1) % ChildList.Count;
-                PokazMenuDzieci();
+                ChildMenu.ActivePosition = (ChildMenu.ActivePosition + 1) % ChildListName.Count;
+                ChildMenu.ShowMenuPositions(ChildListName);
+                OpcjaWyjscia();
             }
             else if (klawisz.Key == ConsoleKey.Enter)
             {
@@ -137,41 +119,44 @@ void WybierzDziecko()
             else if (klawisz.Key == ConsoleKey.Escape)
             {
                 Console.Write("_");
-                PokazMenu();
+                MainMenu.ShowMenuPositions(PositionsMenuList);
+                OpcjaWyjscia();
                 break;
             }
             else
             {
                 Console.Clear();
-                PokazMenuDzieci();
+                ChildMenu.ShowMenuPositions(ChildListName);
+                OpcjaWyjscia();
             }
         } while (true);
     }
 }
 void DodajUsunKredke(int indexChild, bool czyDodaj)
 {
-    if (ChildList.Count > 1)
+    if (ChildList.Count != 0)
     {
-        pozycjeMenuKredki.Clear();
+        CrayonsColorsList.Clear();
         if (czyDodaj)
         {
             foreach (string color in crayons)
             {
-                pozycjeMenuKredki.Add(color);
+                CrayonsColorsList.Add(color);
             }
             for (int i = 0; i < ChildList[indexChild].CollectionOfCrayons.Count; i++)
             {
-                pozycjeMenuKredki.Remove(ChildList[indexChild].CollectionOfCrayons[i]);
+                CrayonsColorsList.Remove(ChildList[indexChild].CollectionOfCrayons[i]);
             }
         }
         else
         {
             foreach (string color in ChildList[indexChild].CollectionOfCrayons)
             {
-                pozycjeMenuKredki.Add(color);
+                CrayonsColorsList.Add(color);
             }
         }
-        PokazMenuKredki();
+        CrayonsMenu.ShowMenuPositions(CrayonsColorsList);
+        OpcjaWyjscia();
         try
         {
             do
@@ -179,25 +164,29 @@ void DodajUsunKredke(int indexChild, bool czyDodaj)
                 ConsoleKeyInfo klawisz = Console.ReadKey();
                 if (klawisz.Key == ConsoleKey.UpArrow)
                 {
-                    aktywnaPozycjaMenuKredki = (aktywnaPozycjaMenuKredki > 0) ? aktywnaPozycjaMenuKredki - 1 : pozycjeMenuKredki.Count - 1;
-                    PokazMenuKredki();
+                    CrayonsMenu.ActivePosition = (CrayonsMenu.ActivePosition > 0) ? CrayonsMenu.ActivePosition - 1 : CrayonsColorsList.Count - 1;
+                    CrayonsMenu.ShowMenuPositions(CrayonsColorsList);
+                    OpcjaWyjscia();
                 }
                 else if (klawisz.Key == ConsoleKey.DownArrow)
                 {
-                    aktywnaPozycjaMenuKredki = (aktywnaPozycjaMenuKredki + 1) % pozycjeMenuKredki.Count;
-                    PokazMenuKredki();
+                    CrayonsMenu.ActivePosition = (CrayonsMenu.ActivePosition + 1) % CrayonsColorsList.Count;
+                    CrayonsMenu.ShowMenuPositions(CrayonsColorsList);
+                    OpcjaWyjscia();
                 }
                 else if (klawisz.Key == ConsoleKey.Enter && !czyDodaj)
                 {
-                    ChildList[indexChild].RemoveCrayon(pozycjeMenuKredki[aktywnaPozycjaMenuKredki]);
-                    pozycjeMenuKredki.Remove(pozycjeMenuKredki[aktywnaPozycjaMenuKredki]);
-                    PokazMenuKredki();
+                    ChildList[indexChild].RemoveCrayon(CrayonsColorsList[CrayonsMenu.ActivePosition]);
+                    CrayonsColorsList.Remove(CrayonsColorsList[CrayonsMenu.ActivePosition]);
+                    CrayonsMenu.ShowMenuPositions(CrayonsColorsList);
+                    OpcjaWyjscia();
                 }
                 else if (klawisz.Key == ConsoleKey.Enter && czyDodaj)
                 {
-                    ChildList[indexChild].GiveCrayon(pozycjeMenuKredki[aktywnaPozycjaMenuKredki]);
-                    pozycjeMenuKredki.Remove(pozycjeMenuKredki[aktywnaPozycjaMenuKredki]);
-                    PokazMenuKredki();
+                    ChildList[indexChild].GiveCrayon(CrayonsColorsList[CrayonsMenu.ActivePosition]);
+                    CrayonsColorsList.Remove(CrayonsColorsList[CrayonsMenu.ActivePosition]);
+                    CrayonsMenu.ShowMenuPositions(CrayonsColorsList);
+                    OpcjaWyjscia();
                 }
                 else if (klawisz.Key == ConsoleKey.Escape)
                 {
@@ -213,9 +202,12 @@ void DodajDziecko()
 {
     Console.WriteLine("Podaj imię dziecka:");
     var input = Console.ReadLine();
-    ChildList.Add(new Child(input));
-    Console.WriteLine();
-    Console.WriteLine("Kliknij klawisz Esc aby zakończyc dodawanie");
+    if (input != null)
+    {
+        ChildList.Add(new Child(input));
+        ChildListName.Add(input); // nieładne rozwiązanie
+    }
+
 }
 void PokazStatystyki(int indexChild)
 {
@@ -260,30 +252,6 @@ void PokazStatystykiWszystkich()
         }
         catch (Exception e) { Console.WriteLine(e); }
     }
-}
-void PokazMenuKredki()
-{
-    Console.BackgroundColor = ConsoleColor.Black;
-    Console.Clear();
-    Console.ForegroundColor = ConsoleColor.White;
-    Console.WriteLine("Wybierz Kolor Kredki:");
-    for (int i = 0; i < pozycjeMenuKredki.Count; i++)
-    {
-        if (i == aktywnaPozycjaMenuKredki)
-        {
-            Console.BackgroundColor = ConsoleColor.DarkGray;
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("{0,-35}", pozycjeMenuKredki[i]);
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-        else
-        {
-            Console.WriteLine(pozycjeMenuKredki[i]);
-        }
-    }
-    Console.WriteLine();
-    Console.WriteLine("Kliknij klawisz Esc aby zakończyc dodawanie");
 }
 void Podsumowanie(int indexChild)
 {
