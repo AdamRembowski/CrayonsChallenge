@@ -1,41 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CrayonsChallenge
+﻿namespace CrayonsChallenge
 {
-    internal class ShowMenu
+    public class ShowMenu
     {
         public ShowMenu(string header)
         {
             this.Header = header;
+            this.PositionsMenuList = new List<string>();
         }
         public int ActivePosition { get; set; }
-        public string Header { private get; set; }
-        public void ShowMenuPositions(List<string> listOfMenu)
+        string Header { get; set; }
+        public List<string> PositionsMenuList { get; set; }
+        public void ShowMenuPositions()
         {            
             Console.BackgroundColor = ConsoleColor.Black;
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(this.Header);
-            for (int i = 0; i < listOfMenu.Count; i++)
+            int position = 0;
+            foreach (string item in PositionsMenuList)
             {
-                if (i == this.ActivePosition)
+                if (position == ActivePosition)
                 {
                     Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.ForegroundColor = ConsoleColor.Gray;
-                    Console.WriteLine("{0,-35}", listOfMenu[i]);
+                    Console.WriteLine("{0,-35}", PositionsMenuList[position]);
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.White;
                 }
                 else
                 {
-                    Console.WriteLine(listOfMenu[i]);
+                    Console.WriteLine(item);
                 }
-            }            
+                position++;
+            }
         }
-
     }
 }
