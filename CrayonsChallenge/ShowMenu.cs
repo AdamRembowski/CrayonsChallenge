@@ -6,15 +6,16 @@
         {
             this.Header = header;
             this.PositionsMenuList = new List<string>();
+            this.ActivePosition = 0;
         }
-        public int ActivePosition { get; set; }
-        string Header { get; set; }
+        public int ActivePosition { get; private set; }
+        private string Header { get; set; }
         public List<string> PositionsMenuList { get; set; }
         public void ShowMenuPositions()
         {            
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
+            Console.Clear();
             Console.WriteLine(this.Header);
             int position = 0;
             foreach (string item in PositionsMenuList)
@@ -34,5 +35,10 @@
                 position++;
             }
         }
+        public void ChangeMenuActivePosition(int position) 
+        {
+            this.ActivePosition = position;
+        }
+
     }
 }

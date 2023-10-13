@@ -6,9 +6,9 @@
         {
             this.Child = Child;
         }
-        Child Child { get; set; }
+        Child Child { get; }
         List<string> crayons = new Crayons().color();
-        public override void ActivateOption(ShowMenu WhatMenu, string ActiveChild)
+        public override int ActivateOption(ShowMenu WhatMenu, string ActiveChild)
         {
             try
             {
@@ -19,42 +19,33 @@
                         WhatMenu.PositionsMenuList.Remove(color);
                     }
                 }
-                WhatMenu.ActivePosition = 0;
-                WhatMenu.ShowMenuPositions();
-                ShowActiveChild(ActiveChild);
-                ControlInfo();
+                BasicAction(ref WhatMenu, 0, ActiveChild);
                 do
                 {
                     ConsoleKeyInfo klawisz = Console.ReadKey();
                     if (klawisz.Key == ConsoleKey.UpArrow)
                     {
-                        WhatMenu.ActivePosition = (WhatMenu.ActivePosition > 0) ? WhatMenu.ActivePosition - 1 : WhatMenu.PositionsMenuList.Count - 1;
-                        WhatMenu.ShowMenuPositions();
-                        ShowActiveChild(ActiveChild);
-                        ControlInfo();
+                        int ActivePosition = (WhatMenu.ActivePosition > 0) ? WhatMenu.ActivePosition - 1 : WhatMenu.PositionsMenuList.Count - 1;
+                        BasicAction(ref WhatMenu, ActivePosition, ActiveChild);
                     }
                     else if (klawisz.Key == ConsoleKey.DownArrow)
                     {
-                        WhatMenu.ActivePosition = (WhatMenu.ActivePosition + 1) % WhatMenu.PositionsMenuList.Count;
-                        WhatMenu.ShowMenuPositions();
-                        ShowActiveChild(ActiveChild);
-                        ControlInfo();
+                        int ActivePosition = (WhatMenu.ActivePosition + 1) % WhatMenu.PositionsMenuList.Count;
+                        BasicAction(ref WhatMenu, ActivePosition, ActiveChild);
                     }
                     else if (klawisz.Key == ConsoleKey.Enter)
                     {
                         Child.GiveCrayon(WhatMenu.PositionsMenuList[WhatMenu.ActivePosition]);
                         WhatMenu.PositionsMenuList.Remove(WhatMenu.PositionsMenuList[WhatMenu.ActivePosition]);
-                        if(WhatMenu.PositionsMenuList.Count!=0 && WhatMenu.ActivePosition==0)
+                        if (WhatMenu.PositionsMenuList.Count != 0 && WhatMenu.ActivePosition == 0)
                         {
-                            WhatMenu.ActivePosition=0;
+                            WhatMenu.ChangeMenuActivePosition(0);
                         }
-                        else if(WhatMenu.ActivePosition == WhatMenu.PositionsMenuList.Count)
+                        else if (WhatMenu.ActivePosition == WhatMenu.PositionsMenuList.Count)
                         {
-                            WhatMenu.ActivePosition--;
+                            WhatMenu.ChangeMenuActivePosition(WhatMenu.PositionsMenuList.Count-1);                            
                         }
-                        WhatMenu.ShowMenuPositions();
-                        ShowActiveChild(ActiveChild);
-                        ControlInfo();
+                        BasicAction(ref WhatMenu, WhatMenu.ActivePosition, ActiveChild);
                     }
                     else if (klawisz.Key == ConsoleKey.Escape)
                     {
@@ -64,6 +55,12 @@
                 } while (true);
             }
             catch (Exception e) { }
+            return WhatMenu.ActivePosition;
+        }
+        public override void ControlInfo()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Kliknij klawisz Enter aby potwierdzić wybór, ESC aby wyjść");
         }
     }
 }
