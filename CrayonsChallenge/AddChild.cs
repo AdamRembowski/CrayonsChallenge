@@ -2,7 +2,7 @@
 {
     public class AddChild : ChooseOption
     {
-        public AddChild(ShowMenu WhatMenu) : base(WhatMenu)
+        public AddChild(ShowMenu whatMenu) : base(whatMenu)
         {
 
         }

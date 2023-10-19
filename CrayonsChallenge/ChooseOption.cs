@@ -1,31 +1,29 @@
-﻿using System.Reflection.Metadata.Ecma335;
-
-namespace CrayonsChallenge
+﻿namespace CrayonsChallenge
 {
     public class ChooseOption
     {
         public ShowMenu WhatMenu { get; }
-        public ChooseOption(ShowMenu WhatMenu)
+        public ChooseOption(ShowMenu whatMenu)
         {
-            this.WhatMenu = WhatMenu;
+            this.WhatMenu = whatMenu;
         }
-        public virtual int ActivateOption(ShowMenu WhatMenu, string ActiveChild)
+        public virtual int ActivateOption(ShowMenu whatMenu, string activeChild)
         {
-            if (WhatMenu.PositionsMenuList != null)
+            if (whatMenu.PositionsMenuList != null)
             {
                 do
                 {
-                    BasicAction(ref WhatMenu, WhatMenu.ActivePosition, ActiveChild);
+                    BasicAction(ref whatMenu, whatMenu.ActivePosition, activeChild);
                     ConsoleKeyInfo klawisz = Console.ReadKey();
                     if (klawisz.Key == ConsoleKey.UpArrow)
                     {
-                        int ActivePosition = (WhatMenu.ActivePosition > 0) ? WhatMenu.ActivePosition - 1 : WhatMenu.PositionsMenuList.Count - 1;
-                        BasicAction(ref WhatMenu, ActivePosition, ActiveChild);
+                        int activePosition = (whatMenu.ActivePosition > 0) ? whatMenu.ActivePosition - 1 : whatMenu.PositionsMenuList.Count - 1;
+                        BasicAction(ref whatMenu, activePosition, activeChild);
                     }
                     else if (klawisz.Key == ConsoleKey.DownArrow)
                     {
-                        int ActivePosition = (WhatMenu.ActivePosition + 1) % WhatMenu.PositionsMenuList.Count;
-                        BasicAction(ref WhatMenu, ActivePosition, ActiveChild);
+                        int activePosition = (whatMenu.ActivePosition + 1) % whatMenu.PositionsMenuList.Count;
+                        BasicAction(ref whatMenu, activePosition, activeChild);
                     }
                     else if (klawisz.Key == ConsoleKey.Enter)
                     {
@@ -39,17 +37,17 @@ namespace CrayonsChallenge
                     else
                     {
                         Console.Clear();
-                        BasicAction(ref WhatMenu, WhatMenu.ActivePosition, ActiveChild);
+                        BasicAction(ref whatMenu, whatMenu.ActivePosition, activeChild);
                     }
                 } while (true);
             }
-            return WhatMenu.ActivePosition;
+            return whatMenu.ActivePosition;
         }
-        public void BasicAction(ref ShowMenu WhatMenu, int ActivePosition, string ActiveChild)
+        public void BasicAction(ref ShowMenu whatMenu, int activePosition, string activeChild)
         {
-            WhatMenu.ChangeMenuActivePosition(ActivePosition);
-            WhatMenu.ShowMenuPositions();
-            ShowActiveChild(ActiveChild);
+            whatMenu.ChangeMenuActivePosition(activePosition);
+            whatMenu.ShowMenuPositions();
+            ShowActiveChild(activeChild);
             ControlInfo();
         }
         public virtual void ControlInfo()
@@ -57,10 +55,10 @@ namespace CrayonsChallenge
             Console.WriteLine();
             Console.WriteLine("Kliknij klawisz Enter aby potwierdzić wybór");
         }
-        public void ShowActiveChild(string ActiveChild)
+        public void ShowActiveChild(string activeChild)
         {
             Console.WriteLine();
-            Console.WriteLine($"Wybrane Dziecko: {ActiveChild}");
+            Console.WriteLine($"Wybrane Dziecko: {activeChild}");
             Console.WriteLine();
         }
 

@@ -2,25 +2,28 @@
 {
     public class Crayons
     {
-        public List<string> color()
+        public List<string> Color
         {
-            string fileName = "Colors.txt";
-            List<string> Color = new List<string>();
-            if (File.Exists(fileName))
+            get
             {
-                using (var reader = File.OpenText(fileName))
+                string fileName = "Colors.txt";
+                List<string> color = new List<string>();
+                if (File.Exists(fileName))
                 {
-                    var line = reader.ReadLine();
-                    int i = 0;
-                    while (line != null)
+                    using (var reader = File.OpenText(fileName))
                     {
-                        Color.Add(line);
-                        i++;
-                        line = reader.ReadLine();
+                        var line = reader.ReadLine();
+                        int i = 0;
+                        while (line != null)
+                        {
+                            color.Add(line);
+                            i++;
+                            line = reader.ReadLine();
+                        }
                     }
                 }
+                return color;
             }
-            return Color;
         }
     }
- }
+}

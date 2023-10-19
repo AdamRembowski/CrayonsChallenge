@@ -2,5 +2,5 @@
 
 public interface ILoadFromFile
 {
-    public void ActivateOption(ref ShowMenu ChildMenu,ref List<Child> ChildList);
+    public void ActivateOption(ref ShowMenu childMenu,ref List<Child> childList);
 }

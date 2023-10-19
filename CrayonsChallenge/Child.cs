@@ -2,16 +2,8 @@
 {
     public class Child
     {
-        public string Name { get; }
-        public bool IsWinner
-        {
-            get
-            {
-                return CollectionOfCrayons.Count == AmountOfCryons;
-            }
-        }
+        public string Name { get; private set; }
         public List<string> CollectionOfCrayons { get; private set; }
-        public const int AmountOfCryons = 16;
         public Child()
         {
         }
@@ -20,32 +12,21 @@
             this.Name = name;
             this.CollectionOfCrayons = new List<string>();
         }
-        public void GiveCrayon(string CrayonsColor)
+        public void GiveCrayon(string crayonsColor)
         {
-            this.CollectionOfCrayons.Add(CrayonsColor);
-        }
-        public void RemoveCrayon(string CrayonsColor)
-        {
-            this.CollectionOfCrayons.Remove(CrayonsColor);
-        }
-        public void Statistics()
-        {
-            Console.WriteLine($"Imię dziecka: {Name}");
-            Console.WriteLine($"Zebranych kredek: {CollectionOfCrayons.Count}");
-            foreach (var crayon in CollectionOfCrayons)
+            if (!CollectionOfCrayons.Contains(crayonsColor))
             {
-                Console.WriteLine(crayon);
+                this.CollectionOfCrayons.Add(crayonsColor);
             }
-            if (IsWinner)
+
+        }
+        public void RemoveCrayon(string crayonsColor)
+        {
+            if (CollectionOfCrayons.Contains(crayonsColor))
             {
-                Console.WriteLine($"Dziecko o imieniu: {Name} zapracowało na kolorowankę!");
-            }
-            else
-            {
-                double division = ((CollectionOfCrayons.Count * 100) / AmountOfCryons);
-                var score = (Math.Round(division, 0));
-                Console.WriteLine($"{score} % zebranych kredek");
+                this.CollectionOfCrayons.Remove(crayonsColor);
             }
         }
     }
+
 }

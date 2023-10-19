@@ -7,45 +7,45 @@
             this.Child = Child;
         }
         Child Child { get; }
-        List<string> crayons = new Crayons().color();
-        public override int ActivateOption(ShowMenu WhatMenu, string ActiveChild)
+        List<string> crayons = new Crayons().Color;
+        public override int ActivateOption(ShowMenu whatMenu, string activeChild)
         {
             try
             {
                 {
-                    WhatMenu.PositionsMenuList = crayons;
+                    whatMenu.PositionsMenuList = crayons;
                     foreach (string color in Child.CollectionOfCrayons)
                     {
-                        WhatMenu.PositionsMenuList.Remove(color);
+                        whatMenu.PositionsMenuList.Remove(color);
                     }
                 }
-                BasicAction(ref WhatMenu, 0, ActiveChild);
+                BasicAction(ref whatMenu, 0, activeChild);
                 do
                 {
                     ConsoleKeyInfo klawisz = Console.ReadKey();
                     if (klawisz.Key == ConsoleKey.UpArrow)
                     {
-                        int ActivePosition = (WhatMenu.ActivePosition > 0) ? WhatMenu.ActivePosition - 1 : WhatMenu.PositionsMenuList.Count - 1;
-                        BasicAction(ref WhatMenu, ActivePosition, ActiveChild);
+                        int ActivePosition = (whatMenu.ActivePosition > 0) ? whatMenu.ActivePosition - 1 : whatMenu.PositionsMenuList.Count - 1;
+                        BasicAction(ref whatMenu, ActivePosition, activeChild);
                     }
                     else if (klawisz.Key == ConsoleKey.DownArrow)
                     {
-                        int ActivePosition = (WhatMenu.ActivePosition + 1) % WhatMenu.PositionsMenuList.Count;
-                        BasicAction(ref WhatMenu, ActivePosition, ActiveChild);
+                        int ActivePosition = (whatMenu.ActivePosition + 1) % whatMenu.PositionsMenuList.Count;
+                        BasicAction(ref whatMenu, ActivePosition, activeChild);
                     }
                     else if (klawisz.Key == ConsoleKey.Enter)
                     {
-                        Child.GiveCrayon(WhatMenu.PositionsMenuList[WhatMenu.ActivePosition]);
-                        WhatMenu.PositionsMenuList.Remove(WhatMenu.PositionsMenuList[WhatMenu.ActivePosition]);
-                        if (WhatMenu.PositionsMenuList.Count != 0 && WhatMenu.ActivePosition == 0)
+                        Child.GiveCrayon(whatMenu.PositionsMenuList[whatMenu.ActivePosition]);
+                        whatMenu.PositionsMenuList.Remove(whatMenu.PositionsMenuList[whatMenu.ActivePosition]);
+                        if (whatMenu.PositionsMenuList.Count != 0 && whatMenu.ActivePosition == 0)
                         {
-                            WhatMenu.ChangeMenuActivePosition(0);
+                            whatMenu.ChangeMenuActivePosition(0);
                         }
-                        else if (WhatMenu.ActivePosition == WhatMenu.PositionsMenuList.Count)
+                        else if (whatMenu.ActivePosition == whatMenu.PositionsMenuList.Count)
                         {
-                            WhatMenu.ChangeMenuActivePosition(WhatMenu.PositionsMenuList.Count-1);                            
+                            whatMenu.ChangeMenuActivePosition(whatMenu.PositionsMenuList.Count-1);                            
                         }
-                        BasicAction(ref WhatMenu, WhatMenu.ActivePosition, ActiveChild);
+                        BasicAction(ref whatMenu, whatMenu.ActivePosition, activeChild);
                     }
                     else if (klawisz.Key == ConsoleKey.Escape)
                     {
@@ -55,7 +55,7 @@
                 } while (true);
             }
             catch (Exception e) { }
-            return WhatMenu.ActivePosition;
+            return whatMenu.ActivePosition;
         }
         public override void ControlInfo()
         {

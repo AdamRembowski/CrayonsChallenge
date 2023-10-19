@@ -1,96 +1,131 @@
-﻿using CrayonsChallenge;
-
-ShowMenu MainMenu = new ShowMenu("Wybierz Opcję:");
-ShowMenu ChildMenu = new ShowMenu("Wybierz Dziecko:");
-ShowMenu CrayonsMenu = new ShowMenu("Wybierz Kolor Kredki:");
-
-MainMenu.PositionsMenuList.Add("Dodaj dziecko");
-MainMenu.PositionsMenuList.Add("Wybierz dziecko");
-MainMenu.PositionsMenuList.Add("Daj dziecku kredkę");
-MainMenu.PositionsMenuList.Add("Usuń błędnie dodaną kredkę");
-MainMenu.PositionsMenuList.Add("Pokaż statystyki");
-MainMenu.PositionsMenuList.Add("Pokaż statystyki wszystkich");
-MainMenu.PositionsMenuList.Add("Zapisz do pliku");
-MainMenu.PositionsMenuList.Add("Wczytaj z pliku");
-MainMenu.PositionsMenuList.Add("Zakończ");
-
-Console.Title = "Crayons Challenge Console App";
+﻿using System.Runtime.CompilerServices;
+using CrayonsChallenge;
+Console.Title = ">>> Kredkowe Wyzwanie <<<";
 Console.CursorVisible = false;
-List<Child> ChildList = new List<Child>();
 
-ChooseOption MainMenuChooseOption = new ChooseOption(MainMenu);
-ChooseOption ChildMenuChooseOption = new ChooseOption(ChildMenu);
+ShowMenu mainMenu = new ShowMenu("Wybierz Opcję:");
+ShowMenu childMenu = new ShowMenu("Wybierz Dziecko:");
+ShowMenu crayonsMenu = new ShowMenu("Wybierz Kolor Kredki:");
+
+mainMenu.PositionsMenuList.Add("Dodaj dziecko");
+mainMenu.PositionsMenuList.Add("Wybierz dziecko");
+mainMenu.PositionsMenuList.Add("Daj dziecku kredkę");
+mainMenu.PositionsMenuList.Add("Usuń błędnie dodaną kredkę");
+mainMenu.PositionsMenuList.Add("Pokaż statystyki");
+mainMenu.PositionsMenuList.Add("Pokaż statystyki wszystkich");
+mainMenu.PositionsMenuList.Add("Zapisz do pliku");
+mainMenu.PositionsMenuList.Add("Wczytaj z pliku");
+mainMenu.PositionsMenuList.Add("Zakończ");
+
+List<Child> childList = new List<Child>();
+
+ChooseOption mainMenuChooseOption = new ChooseOption(mainMenu);
+ChooseOption childMenuChooseOption = new ChooseOption(childMenu);
 
 while (true)
 {
-    MainMenu.ShowMenuPositions();
-    if (ChildMenu.PositionsMenuList.Any())
+    mainMenu.ShowMenuPositions();
+    if (childMenu.PositionsMenuList.Any())
     {
-        var PositionsMenuList = ChildMenu.PositionsMenuList[ChildMenu.ActivePosition];
-        int ActivOption = MainMenuChooseOption.ActivateOption(MainMenu, PositionsMenuList);
-        MainMenu.ChangeMenuActivePosition(ActivOption);
+        var positionsMenuList = childMenu.PositionsMenuList[childMenu.ActivePosition];
+        int activOption = mainMenuChooseOption.ActivateOption(mainMenu, positionsMenuList);
+        mainMenu.ChangeMenuActivePosition(activOption);
     }
     else
     {
-        int ActivOption = MainMenuChooseOption.ActivateOption(MainMenu, "");
-        MainMenu.ChangeMenuActivePosition(ActivOption);
+        int activOption = mainMenuChooseOption.ActivateOption(mainMenu, "");
+        mainMenu.ChangeMenuActivePosition(activOption);
     }
     ActivateOption();
 }
 void ActivateOption()
 {
 
-    switch (MainMenu.ActivePosition)
+    switch (mainMenu.ActivePosition)
     {
         case 0: Console.Clear();
-            var addChild = new AddChild(ChildMenu);
-            var NewChild = addChild.ActivateOption();
-            if (NewChild!=null)
+            var addChild = new AddChild(childMenu);
+            var newChild = addChild.ActivateOption();
+            if (newChild!=null)
             {
-                ChildList.Add(NewChild);
+                childList.Add(newChild);
             }
             break;
         case 1: 
             Console.Clear();
-            if (ChildMenu.PositionsMenuList.Any())
+            if (childMenu.PositionsMenuList.Any())
             {
-                string ActiveChild = ChildMenu.PositionsMenuList[ChildMenu.ActivePosition];
-                ChildMenuChooseOption.ActivateOption(ChildMenu, ActiveChild);
+                string activeChild = childMenu.PositionsMenuList[childMenu.ActivePosition];
+                childMenuChooseOption.ActivateOption(childMenu, activeChild);
             }
             break;
         case 2:
             Console.Clear();
-            if (ChildMenu.PositionsMenuList.Any())
+            if (childMenu.PositionsMenuList.Any())
             {
-                AddCrayon AddCrayon = new AddCrayon(CrayonsMenu, ChildList[ChildMenu.ActivePosition]);
-                AddCrayon.ActivateOption(CrayonsMenu, ChildMenu.PositionsMenuList[ChildMenu.ActivePosition]);
+                AddCrayon addCrayon = new AddCrayon(crayonsMenu, childList[childMenu.ActivePosition]);
+                addCrayon.ActivateOption(crayonsMenu, childMenu.PositionsMenuList[childMenu.ActivePosition]);
             }
             break;
         case 3:
             Console.Clear();
-            if (ChildMenu.PositionsMenuList.Any())
+            if (childMenu.PositionsMenuList.Any())
             {
-                RemoveCrayon RemoveCrayon = new RemoveCrayon(CrayonsMenu, ChildList[ChildMenu.ActivePosition]);
-                RemoveCrayon.ActivateOption(CrayonsMenu, ChildMenu.PositionsMenuList[ChildMenu.ActivePosition]);
+                RemoveCrayon removeCrayon = new RemoveCrayon(crayonsMenu, childList[childMenu.ActivePosition]);
+                removeCrayon.ActivateOption(crayonsMenu, childMenu.PositionsMenuList[childMenu.ActivePosition]);
             }
             break;
-         case 4: Console.Clear(); var showStatistics = new ShowStatistics(ChildList); showStatistics.ActivateOption(ChildMenu.ActivePosition); break;
-        //case 4: Console.Clear(); var statistics = ChildList[ChildMenu.ActivePosition].GetStatistics(); break;
-        case 5: Console.Clear(); var showAllStatistics = new ShowAllStatistics(ChildList); showAllStatistics.ActivateOption(); break;
-        case 6: Console.Clear(); var saveAll = new SaveAllStatistics(ChildList); saveAll.ActivateOption(); break;
+         case 4: 
+            Console.Clear();
+            Statistics statistics = new Statistics(childList[childMenu.ActivePosition]);
+            ShowStatistics(statistics);
+            EscKeyDelayed();
+            break;
+        case 5: 
+            Console.Clear();
+            for (int index = 0; index < childList.Count; index++)
+            {                
+                ShowStatistics(new Statistics(childList[index]));
+                Console.WriteLine();
+            }
+            EscKeyDelayed();
+            break;
+        case 6: Console.Clear(); 
+            var saveAll = new SaveAllStatistics(childList); 
+            saveAll.ActivateOption(); 
+            break;
         case 7: Console.Clear(); 
-            //ChildMenu.PositionsMenuList.Clear();  
-            var loadFromFile = new LoadFromFile(); loadFromFile.ActivateOption(ref ChildMenu, ref ChildList); 
+            var loadFromFile = new LoadFromFile(); loadFromFile.ActivateOption(ref childMenu, ref childList); 
             break;
         case 8: Environment.Exit(0); break;
     }
 }
-
-public class Statistics
+void EscKeyDelayed()
 {
-    public List<string> CollectionOfCrayons { get; set; }
-    public int Score { get; set; }
-    public bool IiWinner { get; set; }
-
- 
+    do
+    {
+        ConsoleKeyInfo klawisz = Console.ReadKey();
+        if (klawisz.Key == ConsoleKey.Escape)
+        {
+            Console.Write("_");
+            break;
+        }
+    } while (true);
+}
+void ShowStatistics(Statistics statistics)
+{
+    Console.WriteLine($"Imię dziecka: {statistics.Child.Name}");
+    Console.WriteLine($"Zebranych kredek: {statistics.CollectionOfCrayons.Count}");
+    foreach (var crayon in statistics.CollectionOfCrayons)
+    {
+        Console.WriteLine(crayon);
+    }
+    if (statistics.IsWinner)
+    {
+        Console.WriteLine($"Dziecko o imieniu: {statistics.Child.Name} zapracowało na kolorowankę!");
+    }
+    else
+    {
+        Console.WriteLine($"{statistics.Score} % zebranych kredek");
+    }
 }

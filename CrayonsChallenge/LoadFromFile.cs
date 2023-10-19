@@ -5,7 +5,7 @@ public class LoadFromFile : ILoadFromFile
     public LoadFromFile()
     {
     }
-    public void ActivateOption(ref ShowMenu ChildMenu, ref List<Child>ChildList)
+    public void ActivateOption(ref ShowMenu childMenu, ref List<Child> childList)
     {
         try
         {
@@ -19,16 +19,16 @@ public class LoadFromFile : ILoadFromFile
                         if (input == "Name:")
                         {
                             input = reader.ReadLine();
-                            if (!ChildMenu.PositionsMenuList.Contains(input))
+                            if (!childMenu.PositionsMenuList.Contains(input))
                             {
-                                ChildList.Add(new Child(input));
-                                ChildMenu.PositionsMenuList.Add(input);
+                                childList.Add(new Child(input));
+                                childMenu.PositionsMenuList.Add(input);
                             }
                             index++;
                         }
-                        else if (input != "" && !ChildList[index].CollectionOfCrayons.Contains(input))
+                        else if (input != "" && !childList[index].CollectionOfCrayons.Contains(input))
                         {
-                            ChildList[index].CollectionOfCrayons.Add(input);
+                            childList[index].CollectionOfCrayons.Add(input);
                         }
                         input = reader.ReadLine();
                     } while (input != null);

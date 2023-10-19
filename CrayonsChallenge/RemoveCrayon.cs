@@ -8,7 +8,7 @@ namespace CrayonsChallenge
             this.Child = Child;
         }
         Child Child { get; set; }
-        public override int ActivateOption(ShowMenu WhatMenu, string ActiveChild)
+        public override int ActivateOption(ShowMenu WhatMenu, string activeChild)
         {
             try
             {
@@ -20,19 +20,19 @@ namespace CrayonsChallenge
                         WhatMenu.PositionsMenuList.Add(color);
                     }
                 }
-                BasicAction(ref WhatMenu,0, ActiveChild);
+                BasicAction(ref WhatMenu,0, activeChild);
                 do
                 {
                     ConsoleKeyInfo klawisz = Console.ReadKey();
                     if (klawisz.Key == ConsoleKey.UpArrow)
                     {
                         int ActivePosition = (WhatMenu.ActivePosition > 0) ? WhatMenu.ActivePosition - 1 : WhatMenu.PositionsMenuList.Count - 1;
-                        BasicAction(ref WhatMenu, ActivePosition, ActiveChild);
+                        BasicAction(ref WhatMenu, ActivePosition, activeChild);
                     }
                     else if (klawisz.Key == ConsoleKey.DownArrow)
                     {
                         int ActivePosition = (WhatMenu.ActivePosition + 1) % WhatMenu.PositionsMenuList.Count;
-                        BasicAction(ref WhatMenu, ActivePosition, ActiveChild);
+                        BasicAction(ref WhatMenu, ActivePosition, activeChild);
                     }
                     else if (klawisz.Key == ConsoleKey.Enter)
                     {
@@ -42,7 +42,7 @@ namespace CrayonsChallenge
                         {                            
                             WhatMenu.ChangeMenuActivePosition(WhatMenu.PositionsMenuList.Count-1);
                         }
-                        BasicAction(ref WhatMenu, WhatMenu.ActivePosition, ActiveChild);
+                        BasicAction(ref WhatMenu, WhatMenu.ActivePosition, activeChild);
                     }
                     else if (klawisz.Key == ConsoleKey.Escape)
                     {

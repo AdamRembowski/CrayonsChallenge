@@ -12,7 +12,7 @@
         private string Header { get; set; }
         public List<string> PositionsMenuList { get; set; }
         public void ShowMenuPositions()
-        {            
+        {
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
             Console.Clear();
@@ -35,7 +35,7 @@
                 position++;
             }
         }
-        public void ChangeMenuActivePosition(int position) 
+        public void ChangeMenuActivePosition(int position)
         {
             this.ActivePosition = position;
         }
