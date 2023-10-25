@@ -5,7 +5,7 @@ Console.CursorVisible = false;
 
 ShowMenu mainMenu = new ShowMenu("Wybierz Opcję:");
 ShowMenu childMenu = new ShowMenu("Wybierz Dziecko:");
-ShowMenu crayonsMenu = new ShowMenu("Wybierz Kolor Kredki:");
+ShowMenu crayonMenu = new ShowMenu("Wybierz Kolor Kredki:");
 
 mainMenu.PositionsMenuList.Add("Dodaj dziecko");
 mainMenu.PositionsMenuList.Add("Wybierz dziecko");
@@ -28,12 +28,12 @@ while (true)
     if (childMenu.PositionsMenuList.Any())
     {
         var positionsMenuList = childMenu.PositionsMenuList[childMenu.ActivePosition];
-        int activOption = mainMenuChooseOption.ActivateOption(mainMenu, positionsMenuList);
+        int activOption = mainMenuChooseOption.ActivateOption(positionsMenuList);
         mainMenu.ChangeMenuActivePosition(activOption);
     }
     else
     {
-        int activOption = mainMenuChooseOption.ActivateOption(mainMenu, "");
+        int activOption = mainMenuChooseOption.ActivateOption("");
         mainMenu.ChangeMenuActivePosition(activOption);
     }
     ActivateOption();
@@ -43,65 +43,70 @@ void ActivateOption()
 
     switch (mainMenu.ActivePosition)
     {
-        case 0: Console.Clear();
+        case 0:
+            Console.Clear();
             var addChild = new AddChild(childMenu);
             var newChild = addChild.ActivateOption();
-            if (newChild!=null)
+            if (newChild != null)
             {
                 childList.Add(newChild);
             }
             break;
-        case 1: 
+        case 1:
             Console.Clear();
             if (childMenu.PositionsMenuList.Any())
             {
                 string activeChild = childMenu.PositionsMenuList[childMenu.ActivePosition];
-                childMenuChooseOption.ActivateOption(childMenu, activeChild);
+                childMenuChooseOption.ActivateOption(activeChild);
             }
             break;
         case 2:
             Console.Clear();
             if (childMenu.PositionsMenuList.Any())
             {
-                AddCrayon addCrayon = new AddCrayon(crayonsMenu, childList[childMenu.ActivePosition]);
-                addCrayon.ActivateOption(crayonsMenu, childMenu.PositionsMenuList[childMenu.ActivePosition]);
+                AddCrayon addCrayon = new AddCrayon(crayonMenu, childList[childMenu.ActivePosition]);
+                addCrayon.ActivateOption(childMenu.PositionsMenuList[childMenu.ActivePosition]);
             }
             break;
         case 3:
             Console.Clear();
             if (childMenu.PositionsMenuList.Any())
             {
-                RemoveCrayon removeCrayon = new RemoveCrayon(crayonsMenu, childList[childMenu.ActivePosition]);
-                removeCrayon.ActivateOption(crayonsMenu, childMenu.PositionsMenuList[childMenu.ActivePosition]);
+                RemoveCrayon removeCrayon = new RemoveCrayon(crayonMenu, childList[childMenu.ActivePosition]);
+                removeCrayon.ActivateOption(childMenu.PositionsMenuList[childMenu.ActivePosition]);
             }
             break;
-         case 4: 
+        case 4:
             Console.Clear();
             Statistics statistics = new Statistics(childList[childMenu.ActivePosition]);
             ShowStatistics(statistics);
             EscKeyDelayed();
             break;
-        case 5: 
+        case 5:
             Console.Clear();
             for (int index = 0; index < childList.Count; index++)
-            {                
+            {
                 ShowStatistics(new Statistics(childList[index]));
                 Console.WriteLine();
             }
             EscKeyDelayed();
             break;
-        case 6: Console.Clear(); 
-            var saveAll = new SaveAllStatistics(childList); 
-            saveAll.ActivateOption(); 
+        case 6:
+            Console.Clear();
+            var saveAll = new SaveAllStatistics(childList);
+            saveAll.ActivateOption();
             break;
-        case 7: Console.Clear(); 
-            var loadFromFile = new LoadFromFile(); loadFromFile.ActivateOption(ref childMenu, ref childList); 
+        case 7:
+            Console.Clear();
+            var loadFromFile = new LoadFromFile(); loadFromFile.ActivateOption(ref childMenu, ref childList);
             break;
         case 8: Environment.Exit(0); break;
     }
 }
 void EscKeyDelayed()
 {
+    Console.WriteLine();
+    Console.WriteLine("Kliknij klawisz Enter ESC aby wyjść");
     do
     {
         ConsoleKeyInfo klawisz = Console.ReadKey();

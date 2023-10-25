@@ -1,52 +1,79 @@
-﻿namespace CrayonsChallenge
+﻿using System.ComponentModel;
+
+namespace CrayonsChallenge
 {
     public class ChooseOption
     {
         public ShowMenu WhatMenu { get; }
+        private bool staticMenu;
         public ChooseOption(ShowMenu whatMenu)
         {
             this.WhatMenu = whatMenu;
+            staticMenu = true;
         }
-        public virtual int ActivateOption(ShowMenu whatMenu, string activeChild)
+        public ChooseOption(ShowMenu whatMenu, bool staticMenu)
         {
-            if (whatMenu.PositionsMenuList != null)
+            this.WhatMenu = whatMenu;
+            this.staticMenu = staticMenu;
+        }
+        public virtual int ActivateOption(string activeChild)
+        {
+            if (WhatMenu.PositionsMenuList != null)
             {
+                InitializationMetod(activeChild);
                 do
                 {
-                    BasicAction(ref whatMenu, whatMenu.ActivePosition, activeChild);
+                    BasicAction(WhatMenu.ActivePosition, activeChild);
                     ConsoleKeyInfo klawisz = Console.ReadKey();
                     if (klawisz.Key == ConsoleKey.UpArrow)
                     {
-                        int activePosition = (whatMenu.ActivePosition > 0) ? whatMenu.ActivePosition - 1 : whatMenu.PositionsMenuList.Count - 1;
-                        BasicAction(ref whatMenu, activePosition, activeChild);
+                        int activePosition = (WhatMenu.ActivePosition > 0) ? WhatMenu.ActivePosition - 1 : WhatMenu.PositionsMenuList.Count - 1;
+                        BasicAction(activePosition, activeChild);
                     }
                     else if (klawisz.Key == ConsoleKey.DownArrow)
                     {
-                        int activePosition = (whatMenu.ActivePosition + 1) % whatMenu.PositionsMenuList.Count;
-                        BasicAction(ref whatMenu, activePosition, activeChild);
+                        int activePosition = (WhatMenu.ActivePosition + 1) % WhatMenu.PositionsMenuList.Count;
+                        BasicAction(activePosition, activeChild);
                     }
                     else if (klawisz.Key == ConsoleKey.Enter)
                     {
-                        Console.WriteLine();
-                        break;
+                        EnterKeyAction(activeChild);
+                        if (staticMenu)
+                        {
+                            Console.WriteLine();
+                            break;
+                        }
+                        else
+                            continue;
                     }
                     else if (klawisz.Key == ConsoleKey.Escape)
                     {
                         Console.Write("_");
+                        if (!staticMenu)                 
+                            break;                        
+                        else
+                            continue;
                     }
                     else
                     {
                         Console.Clear();
-                        BasicAction(ref whatMenu, whatMenu.ActivePosition, activeChild);
+                        BasicAction(WhatMenu.ActivePosition, activeChild);
                     }
                 } while (true);
             }
-            return whatMenu.ActivePosition;
+            return WhatMenu.ActivePosition;
         }
-        public void BasicAction(ref ShowMenu whatMenu, int activePosition, string activeChild)
+
+        public virtual void EnterKeyAction(string activeChild)
         {
-            whatMenu.ChangeMenuActivePosition(activePosition);
-            whatMenu.ShowMenuPositions();
+        }
+        public virtual void InitializationMetod(string activeChild)
+        {
+        }
+        public void BasicAction(int activePosition, string activeChild)
+        {
+            WhatMenu.ChangeMenuActivePosition(activePosition);
+            WhatMenu.ShowMenuPositions();
             ShowActiveChild(activeChild);
             ControlInfo();
         }
