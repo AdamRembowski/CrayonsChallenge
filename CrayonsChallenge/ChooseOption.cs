@@ -20,7 +20,7 @@ namespace CrayonsChallenge
         {
             if (WhatMenu.PositionsMenuList != null)
             {
-                InitializationMetod(activeChild);
+                InitializationMetod();
                 do
                 {
                     BasicAction(WhatMenu.ActivePosition, activeChild);
@@ -37,7 +37,7 @@ namespace CrayonsChallenge
                     }
                     else if (klawisz.Key == ConsoleKey.Enter)
                     {
-                        EnterKeyAction(activeChild);
+                        EnterKeyAction();
                         if (staticMenu)
                         {
                             Console.WriteLine();
@@ -64,10 +64,10 @@ namespace CrayonsChallenge
             return WhatMenu.ActivePosition;
         }
 
-        public virtual void EnterKeyAction(string activeChild)
+        public virtual void EnterKeyAction()
         {
         }
-        public virtual void InitializationMetod(string activeChild)
+        public virtual void InitializationMetod()
         {
         }
         public void BasicAction(int activePosition, string activeChild)

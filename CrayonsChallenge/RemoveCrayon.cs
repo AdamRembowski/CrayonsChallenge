@@ -14,7 +14,7 @@ namespace CrayonsChallenge
             Console.WriteLine();
             Console.WriteLine("Kliknij klawisz Enter aby potwierdzić wybór, ESC aby wyjść");
         }
-        public override void InitializationMetod(string activeChild)
+        public override void InitializationMetod()
         {
             WhatMenu.PositionsMenuList.Clear();
             if (Child.CollectionOfCrayons.Count != 0)
@@ -24,9 +24,9 @@ namespace CrayonsChallenge
                     WhatMenu.PositionsMenuList.Add(color);
                 }
             }
-            BasicAction(0, activeChild);
+            BasicAction(0, Child.Name);
         }
-        public override void EnterKeyAction(string activeChild)
+        public override void EnterKeyAction()
         {
             Child.RemoveCrayon(WhatMenu.PositionsMenuList[WhatMenu.ActivePosition]);
             WhatMenu.PositionsMenuList.Remove(WhatMenu.PositionsMenuList[WhatMenu.ActivePosition]);
@@ -34,7 +34,7 @@ namespace CrayonsChallenge
             {
                 WhatMenu.ChangeMenuActivePosition(WhatMenu.PositionsMenuList.Count - 1);
             }
-            BasicAction(WhatMenu.ActivePosition, activeChild);
+            BasicAction(WhatMenu.ActivePosition, Child.Name);
         }
 
     }

@@ -14,16 +14,16 @@
             Console.WriteLine();
             Console.WriteLine("Kliknij klawisz Enter aby potwierdzić wybór, ESC aby wyjść");
         }
-        public override void InitializationMetod(string activeChild)
+        public override void InitializationMetod()
         {
             WhatMenu.PositionsMenuList = crayons;
             foreach (string color in Child.CollectionOfCrayons)
             {
                 WhatMenu.PositionsMenuList.Remove(color);
             }
-            BasicAction(0, activeChild);
+            BasicAction(0, Child.Name);
         }
-        public override void EnterKeyAction(string activeChild)
+        public override void EnterKeyAction()
         {
             Child.GiveCrayon(WhatMenu.PositionsMenuList[WhatMenu.ActivePosition]);
             WhatMenu.PositionsMenuList.Remove(WhatMenu.PositionsMenuList[WhatMenu.ActivePosition]);
@@ -35,7 +35,7 @@
             {
                 WhatMenu.ChangeMenuActivePosition(WhatMenu.PositionsMenuList.Count - 1);
             }
-            BasicAction(WhatMenu.ActivePosition, activeChild);
+            BasicAction(WhatMenu.ActivePosition, Child.Name);
         }
     }
 }
