@@ -8,12 +8,6 @@
         }
         Child Child { get; }
         List<string> crayons = new Crayons().Color;
-
-        public override void ControlInfo()
-        {
-            Console.WriteLine();
-            Console.WriteLine("Kliknij klawisz Enter aby potwierdzić wybór, ESC aby wyjść");
-        }
         public override void InitializationMetod()
         {
             WhatMenu.PositionsMenuList = crayons;
@@ -25,6 +19,8 @@
         }
         public override void EnterKeyAction()
         {
+            
+            
             Child.GiveCrayon(WhatMenu.PositionsMenuList[WhatMenu.ActivePosition]);
             WhatMenu.PositionsMenuList.Remove(WhatMenu.PositionsMenuList[WhatMenu.ActivePosition]);
             if (WhatMenu.PositionsMenuList.Count != 0 && WhatMenu.ActivePosition == 0)

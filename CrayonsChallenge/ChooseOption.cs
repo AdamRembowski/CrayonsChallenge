@@ -38,21 +38,14 @@ namespace CrayonsChallenge
                     else if (klawisz.Key == ConsoleKey.Enter)
                     {
                         EnterKeyAction();
-                        if (staticMenu)
-                        {
-                            Console.WriteLine();
-                            break;
-                        }
-                        else
-                            continue;
+                        if (staticMenu) break;
+                        else continue;
                     }
                     else if (klawisz.Key == ConsoleKey.Escape)
                     {
                         Console.Write("_");
-                        if (!staticMenu)                 
-                            break;                        
-                        else
-                            continue;
+                        if (!staticMenu) break;
+                        else continue;
                     }
                     else
                     {
@@ -63,7 +56,6 @@ namespace CrayonsChallenge
             }
             return WhatMenu.ActivePosition;
         }
-
         public virtual void EnterKeyAction()
         {
         }
@@ -80,7 +72,10 @@ namespace CrayonsChallenge
         public virtual void ControlInfo()
         {
             Console.WriteLine();
-            Console.WriteLine("Kliknij klawisz Enter aby potwierdzić wybór");
+            if (staticMenu)
+                Console.WriteLine("Kliknij klawisz Enter aby potwierdzić wybór");
+            else
+                Console.WriteLine("Kliknij klawisz Enter aby potwierdzić wybór, ESC aby wyjść");
         }
         public void ShowActiveChild(string activeChild)
         {
@@ -88,6 +83,5 @@ namespace CrayonsChallenge
             Console.WriteLine($"Wybrane Dziecko: {activeChild}");
             Console.WriteLine();
         }
-
     }
 }

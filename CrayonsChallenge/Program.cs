@@ -45,7 +45,7 @@ void ActivateOption()
     {
         case 0:
             Console.Clear();
-            var addChild = new AddChild(childMenu);
+            var addChild = new AddChild(ref childMenu);
             var newChild = addChild.ActivateOption();
             if (newChild != null)
             {
