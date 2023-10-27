@@ -1,15 +1,15 @@
 ﻿namespace CrayonsChallenge
 {
-    public class AddChild : ChooseOption
+    public class AddChild
     {
-        public AddChild(ref ShowMenu whatMenu) : base(whatMenu)
+        public AddChild(ref ShowMenu whatMenu)
         {
-
+            WhatMenu = whatMenu;
         }
+        ShowMenu WhatMenu { get; set; }
         public Child? ActivateOption()
         {
             string input = "";
-            var i = 0;
             ControlInfo();
             Console.WriteLine("Podaj imię dziecka:");
             ConsoleKeyInfo keyInfo;
@@ -18,10 +18,10 @@
                 Console.Clear();
                 ControlInfo();
                 Console.WriteLine("Podaj imię dziecka:");
-                if (keyInfo.Key != ConsoleKey.Backspace && keyInfo.Key != ConsoleKey.Enter)
+                if (Char.IsLetter(keyInfo.KeyChar) && keyInfo.Key != ConsoleKey.Backspace && keyInfo.Key != ConsoleKey.Enter)
                 {
-                    input += keyInfo.KeyChar;        
-                    Console.Write(input);                    
+                        input += keyInfo.KeyChar;
+                        Console.Write(input);     
                 }
                 else if (keyInfo.Key == ConsoleKey.Backspace && input.Length>0)
                 {                   
@@ -30,16 +30,20 @@
                 }
                 else if (keyInfo.Key == ConsoleKey.Enter)
                 {
-                    if (input != null && input != "")
-                    {
+                    if (input != null && input != "")                    
+                        {
                         WhatMenu.PositionsMenuList.Add(input);
                         return new Child(input);
                     }                     
                 }
+                else if (!Char.IsLetter(keyInfo.KeyChar))
+                {
+                    Console.Write(input);
+                }
             }
             return null;
         }
-        public override void ControlInfo()
+        public void ControlInfo()
         {
             Console.SetCursorPosition(0, 3);
             Console.Write("Kliknij klawisz Enter aby potwierdzić wybór, ESC aby wyjść");

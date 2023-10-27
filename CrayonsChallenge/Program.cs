@@ -1,5 +1,5 @@
-﻿using System.Runtime.CompilerServices;
-using CrayonsChallenge;
+﻿using CrayonsChallenge;
+
 Console.Title = ">>> Kredkowe Wyzwanie <<<";
 Console.CursorVisible = false;
 
@@ -98,34 +98,34 @@ while (true)
         case 8: Environment.Exit(0); break;
     }
 }
-    void EscKeyDelayed()
+void EscKeyDelayed()
+{
+    Console.WriteLine();
+    Console.WriteLine("Kliknij klawisz Enter ESC aby wyjść");
+    do
     {
-        Console.WriteLine();
-        Console.WriteLine("Kliknij klawisz Enter ESC aby wyjść");
-        do
+        ConsoleKeyInfo klawisz = Console.ReadKey();
+        if (klawisz.Key == ConsoleKey.Escape)
         {
-            ConsoleKeyInfo klawisz = Console.ReadKey();
-            if (klawisz.Key == ConsoleKey.Escape)
-            {
-                Console.Write("_");
-                break;
-            }
-        } while (true);
-    }
-    void ShowStatistics(Statistics statistics)
+            Console.Write("_");
+            break;
+        }
+    } while (true);
+}
+void ShowStatistics(Statistics statistics)
+{
+    Console.WriteLine($"Imię dziecka: {statistics.Name}");
+    Console.WriteLine($"Zebranych kredek: {statistics.CollectionOfCrayons.Count}");
+    foreach (var crayon in statistics.CollectionOfCrayons)
     {
-        Console.WriteLine($"Imię dziecka: {statistics.Name}");
-        Console.WriteLine($"Zebranych kredek: {statistics.CollectionOfCrayons.Count}");
-        foreach (var crayon in statistics.CollectionOfCrayons)
-        {
-            Console.WriteLine(crayon);
-        }
-        if (statistics.IsWinner)
-        {
-            Console.WriteLine($"Dziecko o imieniu: {statistics.Name} zapracowało na kolorowankę!");
-        }
-        else
-        {
-            Console.WriteLine($"{statistics.Score} % zebranych kredek");
-        }
+        Console.WriteLine(crayon);
     }
+    if (statistics.IsWinner)
+    {
+        Console.WriteLine($"Dziecko o imieniu: {statistics.Name} zapracowało na kolorowankę!");
+    }
+    else
+    {
+        Console.WriteLine($"{statistics.Score} % zebranych kredek");
+    }
+}

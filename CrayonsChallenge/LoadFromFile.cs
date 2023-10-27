@@ -29,7 +29,7 @@ public class LoadFromFile : ILoadFromFile
                             child = new Child(input);
                             childMenu.PositionsMenuList.Add(input);
                             childList.Add(child);                            
-                            LoadCrayons(reader, input, child);
+                            LoadCrayons(reader, child);
                         }
                         else if (input != null &&
                             input != "Name:" &&
@@ -40,7 +40,7 @@ public class LoadFromFile : ILoadFromFile
                             {
                                 if (item.Name == input) child = item;
                             }
-                            LoadCrayons(reader, input, child);
+                            LoadCrayons(reader, child);
                         }
                     }
                     while (input != null);
@@ -49,9 +49,9 @@ public class LoadFromFile : ILoadFromFile
         }
         catch (Exception e) { Console.WriteLine(e); }
     }
-    private void LoadCrayons(StreamReader reader, string input, Child child)
+    private void LoadCrayons(StreamReader reader, Child child)
     {
-        input = reader.ReadLine();
+        string input = reader.ReadLine();
         do
         {
             if (input == "Name:" || input == null)
