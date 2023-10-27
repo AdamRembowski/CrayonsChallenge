@@ -36,11 +36,6 @@ while (true)
         int activOption = mainMenuChooseOption.ActivateOption("");
         mainMenu.ChangeMenuActivePosition(activOption);
     }
-    ActivateOption();
-}
-void ActivateOption()
-{
-
     switch (mainMenu.ActivePosition)
     {
         case 0:
@@ -103,34 +98,34 @@ void ActivateOption()
         case 8: Environment.Exit(0); break;
     }
 }
-void EscKeyDelayed()
-{
-    Console.WriteLine();
-    Console.WriteLine("Kliknij klawisz Enter ESC aby wyjść");
-    do
+    void EscKeyDelayed()
     {
-        ConsoleKeyInfo klawisz = Console.ReadKey();
-        if (klawisz.Key == ConsoleKey.Escape)
+        Console.WriteLine();
+        Console.WriteLine("Kliknij klawisz Enter ESC aby wyjść");
+        do
         {
-            Console.Write("_");
-            break;
+            ConsoleKeyInfo klawisz = Console.ReadKey();
+            if (klawisz.Key == ConsoleKey.Escape)
+            {
+                Console.Write("_");
+                break;
+            }
+        } while (true);
+    }
+    void ShowStatistics(Statistics statistics)
+    {
+        Console.WriteLine($"Imię dziecka: {statistics.Name}");
+        Console.WriteLine($"Zebranych kredek: {statistics.CollectionOfCrayons.Count}");
+        foreach (var crayon in statistics.CollectionOfCrayons)
+        {
+            Console.WriteLine(crayon);
         }
-    } while (true);
-}
-void ShowStatistics(Statistics statistics)
-{
-    Console.WriteLine($"Imię dziecka: {statistics.Child.Name}");
-    Console.WriteLine($"Zebranych kredek: {statistics.CollectionOfCrayons.Count}");
-    foreach (var crayon in statistics.CollectionOfCrayons)
-    {
-        Console.WriteLine(crayon);
+        if (statistics.IsWinner)
+        {
+            Console.WriteLine($"Dziecko o imieniu: {statistics.Name} zapracowało na kolorowankę!");
+        }
+        else
+        {
+            Console.WriteLine($"{statistics.Score} % zebranych kredek");
+        }
     }
-    if (statistics.IsWinner)
-    {
-        Console.WriteLine($"Dziecko o imieniu: {statistics.Child.Name} zapracowało na kolorowankę!");
-    }
-    else
-    {
-        Console.WriteLine($"{statistics.Score} % zebranych kredek");
-    }
-}

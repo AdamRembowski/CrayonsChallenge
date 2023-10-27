@@ -14,9 +14,7 @@ public class LoadFromFile : ILoadFromFile
             using (var reader = File.OpenText("output.txt"))
             {
                 var child = new Child();
-
                 var input = reader.ReadLine();
-
                 if (input == "Name:")
                 {
                     do
@@ -44,7 +42,6 @@ public class LoadFromFile : ILoadFromFile
                             }
                             LoadCrayons(reader, input, child);
                         }
-
                     }
                     while (input != null);
                 }
@@ -52,7 +49,6 @@ public class LoadFromFile : ILoadFromFile
         }
         catch (Exception e) { Console.WriteLine(e); }
     }
-
     private void LoadCrayons(StreamReader reader, string input, Child child)
     {
         input = reader.ReadLine();

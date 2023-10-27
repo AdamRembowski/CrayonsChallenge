@@ -26,7 +26,7 @@
                 else if (keyInfo.Key == ConsoleKey.Backspace && input.Length>0)
                 {                   
                     input = input.Remove(input.Length - 1,1);
-                    Console.Write("{0,-35}", input);
+                    Console.Write(input);
                 }
                 else if (keyInfo.Key == ConsoleKey.Enter)
                 {

@@ -2,10 +2,10 @@
 
 public class Statistics
 {
-    public Child Child {  get; private set; }
+    public string Name {  get; private set; }
     public Statistics(Child child)
     {
-       Child = child;
+       Name = child.Name;
        CollectionOfCrayons = child.CollectionOfCrayons;
     }
     public List<string> CollectionOfCrayons { get; private set; }
@@ -14,7 +14,7 @@ public class Statistics
     {
         get
         {
-            double division = (Child.CollectionOfCrayons.Count * 100) / amountOfCryons;
+            double division = (CollectionOfCrayons.Count * 100) / amountOfCryons;
             decimal score = (decimal)Math.Round(division, 0);
             return score;
         }
@@ -23,7 +23,7 @@ public class Statistics
     {
         get
         {
-            return Child.CollectionOfCrayons.Count == amountOfCryons;
+            return CollectionOfCrayons.Count == amountOfCryons;
         }
     }
 }
