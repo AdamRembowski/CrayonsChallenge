@@ -40,11 +40,13 @@ while (true)
     {
         case 0:
             Console.Clear();
-            var addChild = new AddChild(ref childMenu);
-            var newChild = addChild.ActivateOption();
-            if (newChild != null)
+            string newName = CreateChild();
+            if (newName != "")
             {
+                var newChild = new Child(newName);
                 childList.Add(newChild);
+                childMenu.PositionsMenuList.Add(newName);
+                childMenu.ChangeMenuActivePosition(childMenu.PositionsMenuList.Count);
             }
             break;
         case 1:
@@ -128,4 +130,46 @@ void ShowStatistics(Statistics statistics)
     {
         Console.WriteLine($"{statistics.Score} % zebranych kredek");
     }
+}
+
+string CreateChild()
+{
+    string input = "";
+    ControlInfo();
+    Console.WriteLine("Podaj imię dziecka:");
+    ConsoleKeyInfo keyInfo;
+    while ((keyInfo = Console.ReadKey(true)).Key != ConsoleKey.Escape)
+    {
+        Console.Clear();
+        ControlInfo();
+        Console.WriteLine("Podaj imię dziecka:");
+        if (Char.IsLetter(keyInfo.KeyChar))
+        {
+            input += keyInfo.KeyChar;
+            Console.Write(input);
+        }
+        else if (keyInfo.Key == ConsoleKey.Backspace && input.Length > 0)
+        {
+            input = input.Remove(input.Length - 1, 1);
+            Console.Write(input);
+        }
+        else if (keyInfo.Key == ConsoleKey.Enter)
+        {
+            if (input != null && input != "")
+            {
+                return input;
+            }
+        }
+        else if (!Char.IsLetter(keyInfo.KeyChar))
+        {
+            Console.Write(input);
+        }
+    }
+    return "";
+}
+void ControlInfo()
+{
+    Console.SetCursorPosition(0, 3);
+    Console.Write("Kliknij klawisz Enter aby potwierdzić wybór, ESC aby wyjść");
+    Console.SetCursorPosition(0, 0);
 }
