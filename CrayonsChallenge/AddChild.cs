@@ -18,7 +18,7 @@
                 Console.Clear();
                 ControlInfo();
                 Console.WriteLine("Podaj imię dziecka:");
-                if (Char.IsLetter(keyInfo.KeyChar) && keyInfo.Key != ConsoleKey.Backspace && keyInfo.Key != ConsoleKey.Enter)
+                if (Char.IsLetter(keyInfo.KeyChar))
                 {
                         input += keyInfo.KeyChar;
                         Console.Write(input);     
