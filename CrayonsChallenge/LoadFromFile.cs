@@ -6,7 +6,7 @@ public class LoadFromFile : ILoadFromFile
     public LoadFromFile()
     {
     }
-    List<string> crayons = new Crayons().Color;
+    List<string> crayons = new Crayons().Colors;
     public void ActivateOption(ref ShowMenu childMenu, ref List<Child> childList)
     {
         try

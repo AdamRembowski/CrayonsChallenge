@@ -2,7 +2,7 @@
 {
     public class Crayons
     {
-        public List<string> Color
+        public List<string> Colors
         {
             get
             {

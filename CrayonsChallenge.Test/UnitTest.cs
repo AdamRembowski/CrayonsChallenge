@@ -69,23 +69,7 @@ namespace CrayonsChallenge.Test
         {
             //arrange
             Child child = new Child("Adam");
-            List<string> colors = new Crayons().Color;
-            fioletowy
-granatowy
-niebieski
-b³êtkitny
-ciemnozielony
-zielony
-jasnozielony
-¿ó³ty
-cielisty
-pomarañczowy
-bordowy
-czerwony
-br¹zowy
-ciemnobr¹zowy
-czarny
-bia³y
+            List<string> colors = new Crayons().Colors;
             foreach (string color in colors)
             {
                 child.GiveCrayon(color);

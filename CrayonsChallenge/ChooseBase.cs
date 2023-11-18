@@ -2,7 +2,7 @@
 
 namespace CrayonsChallenge
 {
-    public abstract class ChooseBase
+    public abstract class ChooseBase : IChooseBase
     {
         public ShowMenu WhatMenu { get; }
         private bool staticMenu;
@@ -56,12 +56,10 @@ namespace CrayonsChallenge
             }
             return WhatMenu.ActivePosition;
         }
-        public virtual void EnterKeyAction()
-        {
-        }
-        public virtual void InitializationMetod()
-        {
-        }
+        public abstract void EnterKeyAction();
+
+        public abstract void InitializationMetod();
+
         public void BasicAction(int activePosition, string activeChild)
         {
             WhatMenu.ChangeMenuActivePosition(activePosition);
