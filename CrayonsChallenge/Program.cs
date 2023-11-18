@@ -102,10 +102,12 @@ try
         }
     }
 }
-catch
-{
-   
+catch (Exception e) 
+{ 
+    Console.WriteLine(e); 
 }
+
+
 void EscKeyDelayed()
 {
     Console.WriteLine();

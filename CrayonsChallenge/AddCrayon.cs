@@ -1,6 +1,6 @@
 ﻿namespace CrayonsChallenge
 {
-    public class AddCrayon : ChooseOption
+    public class AddCrayon : ChooseBase
     {
         public AddCrayon(ShowMenu whatMenu, Child child) : base(whatMenu, false)
         {

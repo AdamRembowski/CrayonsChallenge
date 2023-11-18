@@ -1,6 +1,6 @@
 ﻿namespace CrayonsChallenge
 {
-    public class RemoveCrayon : ChooseOption
+    public class RemoveCrayon : ChooseBase
     {
         public RemoveCrayon(ShowMenu whatMenu, Child child) : base(whatMenu,false)
         {

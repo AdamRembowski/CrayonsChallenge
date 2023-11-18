@@ -9,7 +9,7 @@ public class Statistics
        CollectionOfCrayons = child.CollectionOfCrayons;
     }
     public List<string> CollectionOfCrayons { get; private set; }
-    const int amountOfCryons = 16;
+    int amountOfCryons = Crayons.Count;
     public decimal Score
     {
         get

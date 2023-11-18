@@ -25,5 +25,6 @@
                 return color;
             }
         }
+        public const int Count = 16;
     }
 }
