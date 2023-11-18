@@ -14,7 +14,7 @@
                     {
                         var line = reader.ReadLine();
                         int i = 0;
-                        while (line != null)
+                        while (line != null || (i == Count))
                         {
                             color.Add(line);
                             i++;
