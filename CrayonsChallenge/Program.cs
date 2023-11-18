@@ -177,6 +177,6 @@ string GetChildName()
 void ControlInfo()
 {
     Console.SetCursorPosition(0, 3);
-    Console.Write("Kliknij klawisz Enter aby potwierdzić wybór, ESC aby wyjść");
+    Console.Write("Kliknij klawisz Enter aby dodać dziecko, ESC aby wyjść");
     Console.SetCursorPosition(0, 0);
 }

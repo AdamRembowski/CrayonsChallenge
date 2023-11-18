@@ -5,16 +5,16 @@ namespace CrayonsChallenge
     public abstract class ChooseBase : IChooseBase
     {
         public ShowMenu WhatMenu { get; }
-        private bool staticMenu;
+        private bool noESC;
         public ChooseBase(ShowMenu whatMenu)
         {
             this.WhatMenu = whatMenu;
-            staticMenu = true;
+            noESC = true;
         }
-        public ChooseBase(ShowMenu whatMenu, bool staticMenu)
+        public ChooseBase(ShowMenu whatMenu, bool noESC)
         {
             this.WhatMenu = whatMenu;
-            this.staticMenu = staticMenu;
+            this.noESC = noESC;
         }
         public virtual int ActivateOption(string activeChild)
         {
@@ -38,13 +38,13 @@ namespace CrayonsChallenge
                     else if (klawisz.Key == ConsoleKey.Enter)
                     {
                         EnterKeyAction();
-                        if (staticMenu) break;
+                        if (noESC) break;
                         else continue;
                     }
                     else if (klawisz.Key == ConsoleKey.Escape)
                     {
                         Console.Write("_");
-                        if (!staticMenu) break;
+                        if (!noESC) break;
                         else continue;
                     }
                     else
@@ -70,7 +70,7 @@ namespace CrayonsChallenge
         public virtual void ControlInfo()
         {
             Console.WriteLine();
-            if (staticMenu)
+            if (noESC)
                 Console.WriteLine("Kliknij klawisz Enter aby potwierdzić wybór");
             else
                 Console.WriteLine("Kliknij klawisz Enter aby potwierdzić wybór, ESC aby wyjść");
