@@ -125,18 +125,22 @@ void EscKeyDelayed()
 void ShowStatistics(Statistics statistics)
 {
     Console.WriteLine($"Imię dziecka: {statistics.Name}");
-    Console.WriteLine($"Zebranych kredek: {statistics.CollectionOfCrayons.Count}");
-    foreach (var crayon in statistics.CollectionOfCrayons)
+    Console.WriteLine($"Zebranych kredek: {statistics.CollectionOfCrayonsCount}");
+    Child child = childList.Find(delegate (Child child) { return child.Name == statistics.Name; });
+    if (child != null)
     {
-        Console.WriteLine(crayon);
-    }
-    if (statistics.IsWinner)
-    {
-        Console.WriteLine($"Dziecko o imieniu: {statistics.Name} zapracowało na kolorowankę!");
-    }
-    else
-    {
-        Console.WriteLine($"{statistics.Score} % zebranych kredek");
+    foreach (var crayon in child.CollectionOfCrayons)
+        {
+            Console.WriteLine(crayon);
+        }
+        if (statistics.IsWinner)
+        {
+            Console.WriteLine($"Dziecko o imieniu: {statistics.Name} zapracowało na kolorowankę!");
+        }
+        else
+        {
+            Console.WriteLine($"{statistics.Score} % zebranych kredek");
+        }
     }
 }
 string GetChildName()

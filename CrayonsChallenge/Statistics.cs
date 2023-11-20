@@ -6,15 +6,15 @@ public class Statistics
     public Statistics(Child child)
     {
        Name = child.Name;
-       CollectionOfCrayons = child.CollectionOfCrayons;
+       CollectionOfCrayonsCount = child.CollectionOfCrayons.Count;
     }
-    public List<string> CollectionOfCrayons { get; private set; }
+    public int CollectionOfCrayonsCount { get; private set; }
     int amountOfCryons = Crayons.Count;
     public decimal Score
     {
         get
         {
-            double division = (CollectionOfCrayons.Count * 100) / amountOfCryons;
+            double division = (CollectionOfCrayonsCount * 100) / amountOfCryons;
             decimal score = (decimal)Math.Round(division, 0);
             return score;
         }
@@ -23,7 +23,7 @@ public class Statistics
     {
         get
         {
-            return CollectionOfCrayons.Count == amountOfCryons;
+            return CollectionOfCrayonsCount == amountOfCryons;
         }
     }
 }

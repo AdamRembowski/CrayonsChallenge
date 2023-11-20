@@ -60,7 +60,7 @@ namespace CrayonsChallenge.Test
 
             //assert
             Assert.AreEqual(statistics.Name, "Adam");
-            Assert.AreEqual(statistics.CollectionOfCrayons.Count, 1);
+            Assert.AreEqual(statistics.CollectionOfCrayonsCount, 1);
             Assert.AreEqual(statistics.IsWinner, false);
             Assert.AreEqual(statistics.Score, 6);
         }
@@ -80,7 +80,7 @@ namespace CrayonsChallenge.Test
 
             //assert
             Assert.AreEqual(statistics.Name, "Adam");
-            Assert.AreEqual(statistics.CollectionOfCrayons.Count, 16);
+            Assert.AreEqual(statistics.CollectionOfCrayonsCount, 16);
             Assert.AreEqual(statistics.IsWinner, true);
             Assert.AreEqual(statistics.Score, 100);
         }
