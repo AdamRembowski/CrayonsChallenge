@@ -75,16 +75,15 @@ try
                 }
                 break;
             case 4:
-                Console.Clear();
-                Statistics statistics = new Statistics(childList[childMenu.ActivePosition]);
-                ShowStatistics(statistics);
+                Console.Clear();;
+                ShowStatistics(childMenu.PositionsMenuList[childMenu.ActivePosition]);
                 EscKeyDelayed();
                 break;
             case 5:
                 Console.Clear();
-                for (int index = 0; index < childList.Count; index++)
+                foreach (string childName in childMenu.PositionsMenuList)
                 {
-                    ShowStatistics(new Statistics(childList[index]));
+                    ShowStatistics(childName);
                     Console.WriteLine();
                 }
                 EscKeyDelayed();
@@ -106,8 +105,6 @@ catch (Exception e)
 { 
     Console.WriteLine(e); 
 }
-
-
 void EscKeyDelayed()
 {
     Console.WriteLine();
@@ -122,14 +119,15 @@ void EscKeyDelayed()
         }
     } while (true);
 }
-void ShowStatistics(Statistics statistics)
-{
-    Console.WriteLine($"Imię dziecka: {statistics.Name}");
-    Console.WriteLine($"Zebranych kredek: {statistics.CollectionOfCrayonsCount}");
-    Child child = childList.Find(delegate (Child child) { return child.Name == statistics.Name; });
+void ShowStatistics(string childName)
+{    
+    Child? child = childList.Find(delegate (Child child) { return child.Name == childName; });
     if (child != null)
     {
-    foreach (var crayon in child.CollectionOfCrayons)
+        Statistics statistics = new Statistics(child);
+        Console.WriteLine($"Imię dziecka: {statistics.Name}");
+        Console.WriteLine($"Zebranych kredek: {statistics.CollectionOfCrayonsCount}");
+        foreach (var crayon in child.CollectionOfCrayons)
         {
             Console.WriteLine(crayon);
         }
