@@ -18,7 +18,8 @@ namespace CrayonsChallenge
         public virtual int ActivateOption(string activeChild)
         {
             if (WhatMenu.PositionsMenuList.Count >= 1)
-            {                
+            {
+                int activePosition = 0;
                 do
                 {
                     InitializationMetod();
@@ -27,13 +28,13 @@ namespace CrayonsChallenge
                     ConsoleKeyInfo klawisz = Console.ReadKey();
                     if (klawisz.Key == ConsoleKey.UpArrow)
                     {
-                        int activePosition = (WhatMenu.ActivePosition > 0) ? WhatMenu.ActivePosition - 1 : WhatMenu.PositionsMenuList.Count - 1;
+                        activePosition = (WhatMenu.ActivePosition > 0) ? WhatMenu.ActivePosition - 1 : WhatMenu.PositionsMenuList.Count - 1;
                         WhatMenu.ChangeMenuActivePosition(WhatMenu.ActivePosition, activePosition, WhatMenu.PositionsMenuList);
                         WhatMenu.ChangeMenuActivePosition(activePosition);
                     }
                     else if (klawisz.Key == ConsoleKey.DownArrow)
                     {
-                        int activePosition = (WhatMenu.ActivePosition + 1) % WhatMenu.PositionsMenuList.Count;
+                        activePosition = (WhatMenu.ActivePosition + 1) % WhatMenu.PositionsMenuList.Count;
                         WhatMenu.ChangeMenuActivePosition(WhatMenu.ActivePosition, activePosition, WhatMenu.PositionsMenuList);
                         WhatMenu.ChangeMenuActivePosition(activePosition);
                     }
@@ -43,8 +44,8 @@ namespace CrayonsChallenge
                         if (noESC) break;
                         else
                         {
-                            Console.Clear();
-                            WhatMenu.ShowMenuPositions();                            
+                            //Console.Clear();
+                            WhatMenu.ShowMenuPositions(activePosition);                            
                             continue;
                         } 
                             
