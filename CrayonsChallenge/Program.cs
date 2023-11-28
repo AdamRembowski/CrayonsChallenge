@@ -30,12 +30,12 @@ try
         {
             string activeChild = childMenu.PositionsMenuList[childMenu.ActivePosition];
             int activOption = mainMenuChooseOption.ActivateOption(activeChild);
-            mainMenu.ChangeMenuActivePosition(activOption);
+            //mainMenu.ChangeMenuActivePosition(activOption);
         }
         else
         {
             int activOption = mainMenuChooseOption.ActivateOption("");
-            mainMenu.ChangeMenuActivePosition(activOption);
+            //mainMenu.ChangeMenuActivePosition(activOption);
         }
         switch (mainMenu.ActivePosition)
         {
@@ -47,13 +47,14 @@ try
                     var newChild = new Child(newName);
                     childList.Add(newChild);
                     childMenu.PositionsMenuList.Add(newName);
-                    childMenu.ChangeMenuActivePosition(childMenu.PositionsMenuList.Count);
+                    childMenu.ChangeMenuActivePosition(childMenu.PositionsMenuList.Count - 1);
                 }
                 break;
             case 1:
                 Console.Clear();
                 if (childMenu.PositionsMenuList.Any())
                 {
+                    childMenu.ShowMenuPositions();
                     string activeChild = childMenu.PositionsMenuList[childMenu.ActivePosition];
                     childMenuChooseOption.ActivateOption(activeChild);
                 }
@@ -61,22 +62,31 @@ try
             case 2:
                 Console.Clear();
                 if (childMenu.PositionsMenuList.Any())
-                {
+                {                    
                     AddCrayon addCrayon = new AddCrayon(crayonMenu, childList[childMenu.ActivePosition]);
+                    crayonMenu.ChangeMenuActivePosition(0);
+                    addCrayon.InitializationMetod();
+                    crayonMenu.ShowMenuPositions();
                     addCrayon.ActivateOption(childMenu.PositionsMenuList[childMenu.ActivePosition]);
                 }
                 break;
             case 3:
                 Console.Clear();
                 if (childMenu.PositionsMenuList.Any())
-                {
+                {                    
                     RemoveCrayon removeCrayon = new RemoveCrayon(crayonMenu, childList[childMenu.ActivePosition]);
+                    crayonMenu.ChangeMenuActivePosition(0);
+                    removeCrayon.InitializationMetod();
+                    crayonMenu.ShowMenuPositions();
                     removeCrayon.ActivateOption(childMenu.PositionsMenuList[childMenu.ActivePosition]);
                 }
                 break;
             case 4:
-                Console.Clear();;
-                ShowStatistics(childMenu.PositionsMenuList[childMenu.ActivePosition]);
+                Console.Clear();
+                if (childMenu.PositionsMenuList.Any())
+                {
+                    ShowStatistics(childMenu.PositionsMenuList[childMenu.ActivePosition]);
+                }
                 EscKeyDelayed();
                 break;
             case 5:

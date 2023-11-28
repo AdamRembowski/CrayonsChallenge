@@ -39,6 +39,17 @@
         {
             this.ActivePosition = position;
         }
+        public void ChangeMenuActivePosition(int lastPosition, int currentPosition, List<string> positionsMenuList)
+        {
+            Console.SetCursorPosition(0, lastPosition + 1);
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("{0,-35}", positionsMenuList[lastPosition]);
+            Console.SetCursorPosition(0, currentPosition + 1);
+            Console.BackgroundColor = ConsoleColor.DarkGray;
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine("{0,-35}", positionsMenuList[currentPosition]);
+        }
 
     }
 }

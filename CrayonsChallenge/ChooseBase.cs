@@ -5,11 +5,10 @@ namespace CrayonsChallenge
     public abstract class ChooseBase : IChooseBase
     {
         public ShowMenu WhatMenu { get; }
-        private bool noESC;
+        private bool noESC = true;
         public ChooseBase(ShowMenu whatMenu)
         {
             this.WhatMenu = whatMenu;
-            noESC = true;
         }
         public ChooseBase(ShowMenu whatMenu, bool noESC)
         {
@@ -18,28 +17,37 @@ namespace CrayonsChallenge
         }
         public virtual int ActivateOption(string activeChild)
         {
-            if (WhatMenu.PositionsMenuList != null)
-            {
-                InitializationMetod();
+            if (WhatMenu.PositionsMenuList.Count >= 1)
+            {                
                 do
                 {
-                    BasicAction(WhatMenu.ActivePosition, activeChild);
+                    InitializationMetod();
+                    ShowActiveChild(activeChild);
+                    ControlInfo();
                     ConsoleKeyInfo klawisz = Console.ReadKey();
                     if (klawisz.Key == ConsoleKey.UpArrow)
                     {
                         int activePosition = (WhatMenu.ActivePosition > 0) ? WhatMenu.ActivePosition - 1 : WhatMenu.PositionsMenuList.Count - 1;
-                        BasicAction(activePosition, activeChild);
+                        WhatMenu.ChangeMenuActivePosition(WhatMenu.ActivePosition, activePosition, WhatMenu.PositionsMenuList);
+                        WhatMenu.ChangeMenuActivePosition(activePosition);
                     }
                     else if (klawisz.Key == ConsoleKey.DownArrow)
                     {
                         int activePosition = (WhatMenu.ActivePosition + 1) % WhatMenu.PositionsMenuList.Count;
-                        BasicAction(activePosition, activeChild);
+                        WhatMenu.ChangeMenuActivePosition(WhatMenu.ActivePosition, activePosition, WhatMenu.PositionsMenuList);
+                        WhatMenu.ChangeMenuActivePosition(activePosition);
                     }
                     else if (klawisz.Key == ConsoleKey.Enter)
                     {
                         EnterKeyAction();
                         if (noESC) break;
-                        else continue;
+                        else
+                        {
+                            Console.Clear();
+                            WhatMenu.ShowMenuPositions();                            
+                            continue;
+                        } 
+                            
                     }
                     else if (klawisz.Key == ConsoleKey.Escape)
                     {
@@ -50,9 +58,8 @@ namespace CrayonsChallenge
                     else
                     {
                         Console.Clear();
-                        BasicAction(WhatMenu.ActivePosition, activeChild);
                     }
-                } while (true);
+                } while ((WhatMenu.PositionsMenuList.Count > 0));
             }
             return WhatMenu.ActivePosition;
         }
@@ -60,13 +67,6 @@ namespace CrayonsChallenge
 
         public abstract void InitializationMetod();
 
-        public void BasicAction(int activePosition, string activeChild)
-        {
-            WhatMenu.ChangeMenuActivePosition(activePosition);
-            WhatMenu.ShowMenuPositions();
-            ShowActiveChild(activeChild);
-            ControlInfo();
-        }
         public virtual void ControlInfo()
         {
             Console.WriteLine();
@@ -77,7 +77,9 @@ namespace CrayonsChallenge
         }
         public void ShowActiveChild(string activeChild)
         {
-            Console.WriteLine();
+            Console.SetCursorPosition(0, 18);
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($"Wybrane Dziecko: {activeChild}");
             Console.WriteLine();
         }

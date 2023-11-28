@@ -10,11 +10,6 @@ public class ChooseOption : ChooseBase
     {
     }
 
-    public override void ControlInfo()
-    {
-        base.ControlInfo();
-    }
-
     public override void EnterKeyAction()
     {
     }

@@ -17,7 +17,7 @@ namespace CrayonsChallenge.Test
             //act
             childMenu.PositionsMenuList.Clear(); 
             var loadFromFile = new LoadFromFile();
-            List<Child> childList = new List<Child>();
+            List<Child>? childList = new List<Child>();
             loadFromFile.ActivateOption(ref childMenu, ref childList);
 
             //assert

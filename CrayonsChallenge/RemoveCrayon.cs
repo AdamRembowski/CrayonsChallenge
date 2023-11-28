@@ -13,16 +13,14 @@
             {
                 WhatMenu.PositionsMenuList = Child.CollectionOfCrayons;
             }
-            BasicAction(0, Child.Name);
         }
         public override void EnterKeyAction()
         {
             Child.RemoveCrayon(WhatMenu.PositionsMenuList[WhatMenu.ActivePosition]);
-            if (WhatMenu.PositionsMenuList.Count != 0 && WhatMenu.ActivePosition == WhatMenu.PositionsMenuList.Count)
+            if (WhatMenu.PositionsMenuList.Count >= 1 && WhatMenu.ActivePosition == WhatMenu.PositionsMenuList.Count)
             {
                 WhatMenu.ChangeMenuActivePosition(WhatMenu.PositionsMenuList.Count - 1);
             }
-            BasicAction(WhatMenu.ActivePosition, Child.Name);
         }
 
     }

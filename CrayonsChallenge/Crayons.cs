@@ -12,9 +12,9 @@
                 {
                     using (var reader = File.OpenText(fileName))
                     {
-                        var line = reader.ReadLine();
+                        string? line = reader.ReadLine();
                         int i = 0;
-                        while (line != null || (i == Count))
+                        while (line != null)
                         {
                             color.Add(line);
                             i++;
