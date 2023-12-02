@@ -25,18 +25,18 @@ try
 {
     while (true)
     {
-        mainMenu.ShowMenuPositions();
         if (childMenu.PositionsMenuList.Any())
         {
             string activeChild = childMenu.PositionsMenuList[childMenu.ActivePosition];
-            int activOption = mainMenuChooseOption.ActivateOption(activeChild);
-            //mainMenu.ChangeMenuActivePosition(activOption);
+            ShowActiveChild(activeChild);
         }
         else
         {
-            int activOption = mainMenuChooseOption.ActivateOption("");
-            //mainMenu.ChangeMenuActivePosition(activOption);
+            ShowActiveChild("");
         }
+        ControlInfoEnterOnly();
+        mainMenu.ShowMenuPositions();
+        mainMenuChooseOption.ActivateOption();        
         switch (mainMenu.ActivePosition)
         {
             case 0:
@@ -49,6 +49,7 @@ try
                     childMenu.PositionsMenuList.Add(newName);
                     childMenu.ChangeMenuActivePosition(childMenu.PositionsMenuList.Count - 1);
                 }
+                Console.Clear();
                 break;
             case 1:
                 Console.Clear();
@@ -56,30 +57,39 @@ try
                 {
                     childMenu.ShowMenuPositions();
                     string activeChild = childMenu.PositionsMenuList[childMenu.ActivePosition];
-                    childMenuChooseOption.ActivateOption(activeChild);
+                    ShowActiveChild(activeChild);                    
+                    ControlInfoEnterOnly();
+                    childMenuChooseOption.ActivateOption();
                 }
+                Console.Clear();
                 break;
             case 2:
                 Console.Clear();
+                ControlInfoCrayonAddRemove();
                 if (childMenu.PositionsMenuList.Any())
-                {                    
+                {
                     AddCrayon addCrayon = new AddCrayon(crayonMenu, childList[childMenu.ActivePosition]);
                     crayonMenu.ChangeMenuActivePosition(0);
                     addCrayon.InitializationMetod();
                     crayonMenu.ShowMenuPositions();
-                    addCrayon.ActivateOption(childMenu.PositionsMenuList[childMenu.ActivePosition]);
+                    ShowActiveChild(childMenu.PositionsMenuList[childMenu.ActivePosition]);
+                    addCrayon.ActivateOption();
                 }
+                Console.Clear();
                 break;
             case 3:
                 Console.Clear();
+                ControlInfoCrayonAddRemove();
                 if (childMenu.PositionsMenuList.Any())
-                {                    
+                {
                     RemoveCrayon removeCrayon = new RemoveCrayon(crayonMenu, childList[childMenu.ActivePosition]);
                     crayonMenu.ChangeMenuActivePosition(0);
                     removeCrayon.InitializationMetod();
                     crayonMenu.ShowMenuPositions();
-                    removeCrayon.ActivateOption(childMenu.PositionsMenuList[childMenu.ActivePosition]);
+                    ShowActiveChild(childMenu.PositionsMenuList[childMenu.ActivePosition]);
+                    removeCrayon.ActivateOption();
                 }
+                Console.Clear();
                 break;
             case 4:
                 Console.Clear();
@@ -87,7 +97,9 @@ try
                 {
                     ShowStatistics(childMenu.PositionsMenuList[childMenu.ActivePosition]);
                 }
+                ControlInfoShowStatistics();
                 EscKeyDelayed();
+                Console.Clear();
                 break;
             case 5:
                 Console.Clear();
@@ -96,29 +108,41 @@ try
                     ShowStatistics(childName);
                     Console.WriteLine();
                 }
+                ControlInfoShowStatistics();
                 EscKeyDelayed();
+                Console.Clear();
                 break;
             case 6:
-                Console.Clear();
                 var saveAll = new SaveAllStatistics(childList);
                 saveAll.ActivateOption();
+                if (File.Exists("output.txt"))
+                {                    
+                    ClearLine(19);
+                    Console.SetCursorPosition(0, 19);
+                    Console.WriteLine("Zapisono poprawnie do pliku");
+                    Console.SetCursorPosition(0, 0);
+                }
                 break;
             case 7:
-                Console.Clear();
                 var loadFromFile = new LoadFromFile(); loadFromFile.ActivateOption(ref childMenu, ref childList);
+                if (childList.Any())
+                {                    
+                    ClearLine(19);
+                    Console.SetCursorPosition(0, 19);
+                    Console.WriteLine("Wczytano poprawnie z pliku");
+                    Console.SetCursorPosition(0, 0);
+                }
                 break;
             case 8: Environment.Exit(0); break;
         }
     }
 }
-catch (Exception e) 
-{ 
-    Console.WriteLine(e); 
+catch (Exception e)
+{
+    Console.WriteLine(e);
 }
 void EscKeyDelayed()
 {
-    Console.WriteLine();
-    Console.WriteLine("Kliknij klawisz Enter ESC aby wyjść");
     do
     {
         ConsoleKeyInfo klawisz = Console.ReadKey();
@@ -130,7 +154,7 @@ void EscKeyDelayed()
     } while (true);
 }
 void ShowStatistics(string childName)
-{    
+{
     Child? child = childList.Find(delegate (Child child) { return child.Name == childName; });
     if (child != null)
     {
@@ -154,13 +178,13 @@ void ShowStatistics(string childName)
 string GetChildName()
 {
     string input = "";
-    ControlInfo();
+    ControlInfoAddChild();
     Console.WriteLine("Podaj imię dziecka:");
     ConsoleKeyInfo keyInfo;
     while ((keyInfo = Console.ReadKey(true)).Key != ConsoleKey.Escape)
     {
-        Console.Clear();
-        ControlInfo();
+        ClearLine(1);
+        ControlInfoAddChild();
         Console.WriteLine("Podaj imię dziecka:");
         if (Char.IsLetter(keyInfo.KeyChar))
         {
@@ -186,9 +210,38 @@ string GetChildName()
     }
     return "";
 }
-void ControlInfo()
-{
+void ControlInfoAddChild()
+{    
     Console.SetCursorPosition(0, 3);
     Console.Write("Kliknij klawisz Enter aby dodać dziecko, ESC aby wyjść");
+    Console.SetCursorPosition(0, 0);
+}
+void ControlInfoCrayonAddRemove()
+{
+    Console.SetCursorPosition(0, 20);
+    Console.WriteLine("Kliknij klawisz Enter aby potwierdzić wybór, ESC aby wyjść");
+    Console.SetCursorPosition(0, 0);
+}
+void ControlInfoShowStatistics()
+{
+    Console.WriteLine();
+    Console.WriteLine("Kliknij klawisz ESC aby wyjść");
+}
+void ControlInfoEnterOnly()
+{
+    Console.SetCursorPosition(0, 20);
+    Console.WriteLine("Kliknij klawisz Enter aby potwierdzić wybór");
+    Console.SetCursorPosition(0, 0);
+}
+void ShowActiveChild(string activeChild)
+{
+    Console.SetCursorPosition(0, 18);
+    Console.WriteLine($"Wybrane Dziecko: {activeChild}");
+    Console.SetCursorPosition(0, 0);
+}
+void ClearLine(int line)
+{
+    Console.SetCursorPosition(0, line);
+    Console.WriteLine(new String(' ', 35));
     Console.SetCursorPosition(0, 0);
 }

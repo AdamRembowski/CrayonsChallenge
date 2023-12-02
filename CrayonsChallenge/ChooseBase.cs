@@ -15,7 +15,7 @@ namespace CrayonsChallenge
             this.WhatMenu = whatMenu;
             this.noESC = noESC;
         }
-        public virtual int ActivateOption(string activeChild)
+        public virtual void ActivateOption()
         {
             if (WhatMenu.PositionsMenuList.Count >= 1)
             {
@@ -23,8 +23,6 @@ namespace CrayonsChallenge
                 do
                 {
                     InitializationMetod();
-                    ShowActiveChild(activeChild);
-                    ControlInfo();
                     ConsoleKeyInfo klawisz = Console.ReadKey();
                     if (klawisz.Key == ConsoleKey.UpArrow)
                     {
@@ -40,15 +38,15 @@ namespace CrayonsChallenge
                     }
                     else if (klawisz.Key == ConsoleKey.Enter)
                     {
+                        Console.ForegroundColor = ConsoleColor.White;
                         EnterKeyAction();
                         if (noESC) break;
                         else
                         {
-                            //Console.Clear();
+                            activePosition = WhatMenu.ActivePosition;
                             WhatMenu.ShowMenuPositions(activePosition);                            
                             continue;
-                        } 
-                            
+                        }                            
                     }
                     else if (klawisz.Key == ConsoleKey.Escape)
                     {
@@ -58,31 +56,13 @@ namespace CrayonsChallenge
                     }
                     else
                     {
-                        Console.Clear();
                     }
                 } while ((WhatMenu.PositionsMenuList.Count > 0));
             }
-            return WhatMenu.ActivePosition;
         }
         public abstract void EnterKeyAction();
 
         public abstract void InitializationMetod();
 
-        public virtual void ControlInfo()
-        {
-            Console.WriteLine();
-            if (noESC)
-                Console.WriteLine("Kliknij klawisz Enter aby potwierdzić wybór");
-            else
-                Console.WriteLine("Kliknij klawisz Enter aby potwierdzić wybór, ESC aby wyjść");
-        }
-        public void ShowActiveChild(string activeChild)
-        {
-            Console.SetCursorPosition(0, 18);
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($"Wybrane Dziecko: {activeChild}");
-            Console.WriteLine();
-        }
     }
 }

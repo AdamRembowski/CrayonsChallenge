@@ -15,7 +15,6 @@
         {
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Clear();
             Console.WriteLine(this.Header);
             int position = 0;
             foreach (string item in PositionsMenuList)
@@ -37,7 +36,6 @@
         }
         public void ShowMenuPositions(int activePosition)        
         {
-            int p = activePosition;
             if (PositionsMenuList.Count > 0)
             {
                 Console.SetCursorPosition(0, activePosition + 1);
@@ -48,14 +46,10 @@
                 Console.ForegroundColor = ConsoleColor.White;
                 for (int i = activePosition + 1; i <= PositionsMenuList.Count - 1; i++)
                 {
-                    Console.WriteLine(PositionsMenuList[i] + "          ");
+                    Console.WriteLine(PositionsMenuList[i] + new String(' ', 7));
                 }
-                Console.WriteLine("                          ");
+                Console.WriteLine(new String(' ', Console.BufferWidth));
             }
-        }
-        public void ChangeMenuActivePosition(int position)
-        {
-            this.ActivePosition = position;
         }
         public void ChangeMenuActivePosition(int lastPosition, int currentPosition, List<string> positionsMenuList)
         {
@@ -67,6 +61,8 @@
             Console.BackgroundColor = ConsoleColor.DarkGray;
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("{0,-35}", positionsMenuList[currentPosition]);
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
         }
         public void RemoveActivePosition(int position)
         {
@@ -80,6 +76,9 @@
                 this.ChangeMenuActivePosition(this.PositionsMenuList.Count - 1);
             }
         }
-
+        public void ChangeMenuActivePosition(int position)
+        {
+            this.ActivePosition = position;
+        }
     }
 }
